@@ -1,0 +1,1 @@
+web: java -jar fulbot-web/target/dependency/jetty-runner.jar fulbot-web/target/*.war
