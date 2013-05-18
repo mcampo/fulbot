@@ -95,4 +95,24 @@ public class CommandMessageContentProcessorTest {
 		
 		assertTrue(attendance.contains(sender));
 	}
+
+	@Test
+	public void testShouldMatchAnyAddCommand() {
+		String sender = "sender";
+		Set<String> attendance = new HashSet<String>();
+		
+		processor.process("count me in", sender, attendance);
+		
+		assertTrue(attendance.contains(sender));
+	}
+
+	@Test
+	public void testShouldMatchAnyRemoveCommand() {
+		String sender = "sender";
+		Set<String> attendance = new HashSet<String>(Arrays.asList(sender));
+		
+		processor.process("count me out", sender, attendance);
+		
+		assertFalse(attendance.contains(sender));
+	}
 }
