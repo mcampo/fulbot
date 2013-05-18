@@ -1,0 +1,31 @@
+MIME-Version: 1.0
+Received: by 10.204.36.131 with HTTP; Sat, 30 Jul 2011 14:59:40 -0700 (PDT)
+Date: Sat, 30 Jul 2011 18:59:40 -0300
+Delivered-To: mcampo@b-vision.com
+Message-ID: <CAGG54rURaSn-pgum5FKZvs1RW=1DxTnAeAAHHLNRZVjcamtiNw@mail.gmail.com>
+Subject: Fulbto test: text/plain and text/html
+From: Mariano Campo <mcampo@b-vision.com>
+To: Mariano Campo <mcampo@b-vision.com>
+Content-Type: multipart/alternative; boundary=000325559a42ccc9fa04a950831c
+
+--000325559a42ccc9fa04a950831c
+Content-Type: text/plain; charset=ISO-8859-1
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent malesuada
+fringilla lectus, quis blandit metus aliquet at. Ut placerat, dolor sed
+placerat rutrum, quam neque convallis nisl, quis lacinia nulla libero at
+eros.
+
+
+Phasellus ultricies odio non massa ultricies non rhoncus massa varius. Morbi
+sapien nulla, pretium et congue at, ultricies eu tellus.
+
+Etiam porta commodo dolor, a vulputate mi ultricies vel.
+
+--000325559a42ccc9fa04a950831c
+Content-Type: text/html; charset=ISO-8859-1
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent malesuada fringilla lectus, quis blandit metus aliquet at. Ut placerat, dolor sed placerat rutrum, quam neque convallis nisl, quis lacinia nulla libero at eros.<br>
+<br><br>Phasellus ultricies odio non massa ultricies non rhoncus massa varius. Morbi sapien nulla, pretium et congue at, ultricies eu tellus. <br><br>Etiam porta commodo dolor, a vulputate mi ultricies vel.<br>
+
+--000325559a42ccc9fa04a950831c--

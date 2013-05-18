@@ -1,0 +1,19 @@
+MIME-Version: 1.0
+Received: by 10.204.36.131 with HTTP; Sat, 30 Jul 2011 14:51:57 -0700 (PDT)
+Date: Sat, 30 Jul 2011 18:51:57 -0300
+Delivered-To: mcampo@b-vision.com
+Message-ID: <CAGG54rXcN7VBJycw=zMj=s=710dDsKxZoAdWMU3XgLngzitefw@mail.gmail.com>
+Subject: Fulbot test: text/plain only
+From: Mariano Campo <mcampo@b-vision.com>
+To: Mariano Campo <mcampo@b-vision.com>
+Content-Type: text/plain; charset=ISO-8859-1
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent
+malesuada fringilla lectus, quis blandit metus aliquet at. Ut
+placerat, dolor sed placerat rutrum, quam neque convallis nisl, quis
+lacinia nulla libero at eros.
+
+Phasellus ultricies odio non massa ultricies non rhoncus massa varius.
+
+Morbi sapien nulla, pretium et congue at, ultricies eu tellus. Etiam
+porta commodo dolor, a vulputate mi ultricies vel.
