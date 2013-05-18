@@ -2,7 +2,7 @@ package fulbot.model.mail.incoming;
 
 import java.util.Set;
 
-public interface MessageContentProcessor {
+public interface ContentProcessor {
 
 	/**
 	 * Adds or removes the sender to the attendance list based on the message

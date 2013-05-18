@@ -6,18 +6,18 @@ import java.util.Set;
 import org.apache.commons.lang3.Validate;
 
 /**
- * {@link MessageContentProcessor} that decides what to do based on the presence
+ * {@link ContentProcessor} that decides what to do based on the presence
  * of configured commands in the message content.
  * 
  * This processor will only check the first line of the message content for an
  * exact match with any command.
  */
-public class CommandMessageContentProcessor implements MessageContentProcessor {
+public class CommandContentProcessor implements ContentProcessor {
 
 	private Collection<String> addCommands;
 	private Collection<String> removeCommands;
 
-	public CommandMessageContentProcessor(Collection<String> addCommands, Collection<String> removeCommands) {
+	public CommandContentProcessor(Collection<String> addCommands, Collection<String> removeCommands) {
 		Validate.notNull(addCommands, "The list of 'add' commands is required");
 		Validate.notNull(removeCommands, "The list of 'remove' commands is required");
 		this.addCommands = addCommands;

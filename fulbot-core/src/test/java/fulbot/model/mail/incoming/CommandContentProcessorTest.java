@@ -12,15 +12,15 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 
-public class CommandMessageContentProcessorTest {
+public class CommandContentProcessorTest {
 
-	private CommandMessageContentProcessor processor;
+	private CommandContentProcessor processor;
 
 	@Before
 	public void setUp() throws Exception {
 		Collection<String> addCommands = Arrays.asList("add", "going", "count me in");
 		Collection<String> removeCommands = Arrays.asList("remove", "not going", "count me out");
-		processor = new CommandMessageContentProcessor(addCommands, removeCommands);
+		processor = new CommandContentProcessor(addCommands, removeCommands);
 	}
 
 	@Test

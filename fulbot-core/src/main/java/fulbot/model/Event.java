@@ -1,5 +1,8 @@
 package fulbot.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.bson.types.ObjectId;
 
 import com.github.jmkgreen.morphia.annotations.Embedded;
@@ -15,6 +18,8 @@ public class Event {
 	@Embedded
 	private EmailData emailData = new EmailData();
 
+	private Set<String> attendance = new HashSet<>();
+
 	public ObjectId getId() {
 		return id;
 	}
@@ -29,6 +34,14 @@ public class Event {
 
 	public void setEmailData(EmailData emailData) {
 		this.emailData = emailData;
+	}
+
+	public Set<String> getAttendance() {
+		return attendance;
+	}
+
+	public void setAttendance(Set<String> attendance) {
+		this.attendance = attendance;
 	}
 
 }

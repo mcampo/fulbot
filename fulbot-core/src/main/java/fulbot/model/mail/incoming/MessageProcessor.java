@@ -1,5 +1,8 @@
 package fulbot.model.mail.incoming;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
@@ -13,20 +16,26 @@ import fulbot.persistence.EventDao;
  */
 public class MessageProcessor {
 
-	private EventDao eventDao;
+	private static final String MIME_HEADER_IN_REPLY_TO = "In-Reply-To";
+	
+	private final EventDao eventDao;
+	private final ContentReader contentReader;
+	private final ContentProcessor contentProcessor;
 
 	/**
 	 * @param eventDao used for finding and saving events
 	 */
-	public MessageProcessor(EventDao eventDao) {
+	public MessageProcessor(EventDao eventDao, ContentReader contentReader, ContentProcessor contentProcessor) {
 		this.eventDao = eventDao;
+		this.contentReader = contentReader;
+		this.contentProcessor = contentProcessor;
 	}
 	
 	public void process(MimeMessage message) {
 		
 		try {
 
-			String inReplyTo = message.getHeader("In-Reply-To", null);
+			String inReplyTo = message.getHeader(MIME_HEADER_IN_REPLY_TO, null);
 			Event event = eventDao.findForMessageId(inReplyTo);
 			if (event == null) {
 				event = new Event();
@@ -35,12 +44,22 @@ public class MessageProcessor {
 			
 			event.getEmailData().getReferences().add(message.getMessageID());
 			
+			String content = readContent(message);
+			String sender = message.getFrom()[0].toString();
+			contentProcessor.process(content, sender, event.getAttendance());
+			
 			eventDao.save(event);
 
-		} catch (MessagingException e) {
+		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 
+	}
+
+	private String readContent(MimeMessage message) throws IOException, MessagingException {
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		contentReader.read(message, outputStream);
+		return outputStream.toString();
 	}
 
 }
