@@ -26,7 +26,7 @@ public class CommandMessageContentProcessorTest {
 	@Test
 	public void testShouldAddSenderWhenAddCommandIsMatched() {
 		String sender = "sender";
-		Set<String> attendance = new HashSet<String>();
+		Set<String> attendance = new HashSet<>();
 		
 		processor.process("add", sender, attendance);
 		
@@ -36,7 +36,7 @@ public class CommandMessageContentProcessorTest {
 	@Test
 	public void testShouldRemoveSenderWhenRemoveCommandIsMatched() {
 		String sender = "sender";
-		Set<String> attendance = new HashSet<String>(Arrays.asList(sender));
+		Set<String> attendance = new HashSet<>(Arrays.asList(sender));
 		
 		processor.process("remove", sender, attendance);
 		
@@ -46,7 +46,7 @@ public class CommandMessageContentProcessorTest {
 	@Test
 	public void testShouldDoNothingWhenNoCommandIsMatched() {
 		String sender = "sender";
-		Set<String> attendance = new HashSet<String>();
+		Set<String> attendance = new HashSet<>();
 		
 		processor.process("non-matching-command", sender, attendance);
 		
@@ -56,7 +56,7 @@ public class CommandMessageContentProcessorTest {
 	@Test
 	public void testShouldNotAddDuplicateWhenAddCommandIsMatchedAndSenderIsAlreadyInAttendance() {
 		String sender = "sender";
-		Set<String> attendance = new HashSet<String>(Arrays.asList(sender));
+		Set<String> attendance = new HashSet<>(Arrays.asList(sender));
 		
 		processor.process("add", sender, attendance);
 		
@@ -68,7 +68,7 @@ public class CommandMessageContentProcessorTest {
 	public void testShouldDoNothingWhenRemoveCommandIsMatchedAndSenderNotInAttendance() {
 		String sender = "sender";
 		String existingAttendee = "existingAttendee";
-		Set<String> attendance = new HashSet<String>(Arrays.asList(existingAttendee));
+		Set<String> attendance = new HashSet<>(Arrays.asList(existingAttendee));
 		
 		processor.process("remove", sender, attendance);
 		
@@ -79,7 +79,7 @@ public class CommandMessageContentProcessorTest {
 	@Test
 	public void testShouldMatchCommandsIgnoringCaseAndTrailingSpaces() {
 		String sender = "sender";
-		Set<String> attendance = new HashSet<String>();
+		Set<String> attendance = new HashSet<>();
 		
 		processor.process(" AdD  \t ", sender, attendance);
 		
@@ -89,7 +89,7 @@ public class CommandMessageContentProcessorTest {
 	@Test
 	public void testShouldOnlyUseFirstLineToMatchACommand() {
 		String sender = "sender";
-		Set<String> attendance = new HashSet<String>();
+		Set<String> attendance = new HashSet<>();
 		
 		processor.process("add\nsome other text", sender, attendance);
 		
@@ -99,7 +99,7 @@ public class CommandMessageContentProcessorTest {
 	@Test
 	public void testShouldMatchAnyAddCommand() {
 		String sender = "sender";
-		Set<String> attendance = new HashSet<String>();
+		Set<String> attendance = new HashSet<>();
 		
 		processor.process("count me in", sender, attendance);
 		
@@ -109,7 +109,7 @@ public class CommandMessageContentProcessorTest {
 	@Test
 	public void testShouldMatchAnyRemoveCommand() {
 		String sender = "sender";
-		Set<String> attendance = new HashSet<String>(Arrays.asList(sender));
+		Set<String> attendance = new HashSet<>(Arrays.asList(sender));
 		
 		processor.process("count me out", sender, attendance);
 		
