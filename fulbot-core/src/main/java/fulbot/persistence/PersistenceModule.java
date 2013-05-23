@@ -10,7 +10,7 @@ import com.github.jmkgreen.morphia.Datastore;
 @Import(MorphiaModule.class)
 public class PersistenceModule {
 
-	private PersistenceModule(Datastore datastore) {
+	public PersistenceModule(Datastore datastore) {
 		
 		//ensure indexes are created in mongodb
 		datastore.ensureIndexes();
