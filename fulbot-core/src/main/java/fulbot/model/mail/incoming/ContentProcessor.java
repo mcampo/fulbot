@@ -6,7 +6,7 @@ public interface ContentProcessor {
 
 	/**
 	 * Adds or removes the sender to the attendance list based on the message
-	 * content. The attendance list may also remain unmodified.
+	 * content. The attendance list may remain unmodified.
 	 * 
 	 * @param content
 	 *            the message content

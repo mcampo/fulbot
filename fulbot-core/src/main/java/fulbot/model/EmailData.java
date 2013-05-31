@@ -5,6 +5,9 @@ import java.util.List;
 
 import com.github.jmkgreen.morphia.annotations.Indexed;
 
+/**
+ * Email related information about an event. 
+ */
 public class EmailData {
 
 	/**

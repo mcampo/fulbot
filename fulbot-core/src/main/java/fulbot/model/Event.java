@@ -9,6 +9,9 @@ import com.github.jmkgreen.morphia.annotations.Embedded;
 import com.github.jmkgreen.morphia.annotations.Entity;
 import com.github.jmkgreen.morphia.annotations.Id;
 
+/**
+ * Represents an event that people will attend
+ */
 @Entity("events")
 public class Event {
 
