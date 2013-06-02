@@ -1,12 +1,34 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title>Fulbot</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
-	</head>
-	<body>
-		<h1>Fulbot</h1>
-	</body>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Fulbot</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+</head>
+<body>
+	<h1>Fulbot</h1>
+
+	<section id="event-list"></section>
+
+	<section id="event-edit"></section>
+
+
+	<script id="event-list-hbs" type="text/x-handlebars">
+		<ul>
+		{{#events}}
+			<li>{{emailData.subject}}</li>
+		{{/events}}
+		</ul>
+	</script>
+
+	<script type="text/javascript" src="js/jquery-2.0.2.js"></script>
+	<script type="text/javascript" src="js/underscore-1.4.4.js"></script>
+	<script type="text/javascript" src="js/backbone-1.0.0.js"></script>
+	<script type="text/javascript" src="js/handlebars-1.0.0.js"></script>
+	<script type="text/javascript" src="js/fulbot.js"></script>
+	<script type="text/javascript" src="js/templates.js"></script>
+	<script type="text/javascript" src="js/routes.js"></script>
+	<script type="text/javascript" src="js/events.js"></script>
+</body>
 </html>
