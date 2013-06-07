@@ -17,7 +17,7 @@
 	<script id="event-list-hbs" type="text/x-handlebars">
 		<ul>
 		{{#events}}
-			<li>{{emailData.subject}}</li>
+			<li><a href="#events/{{id}}">{{emailData.subject}}</a></li>
 		{{/events}}
 		</ul>
 	</script>

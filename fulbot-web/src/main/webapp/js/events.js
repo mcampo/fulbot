@@ -4,7 +4,7 @@ App.Models.Event = Backbone.Model.extend({
 
 App.Collections.EventCollection = Backbone.Collection.extend({
 	model : App.Models.Event,
-	url : "/rest/events"
+	url : "/api/events"
 });
 
 App.Views.EventCollectionView = Backbone.View.extend({
@@ -14,6 +14,7 @@ App.Views.EventCollectionView = Backbone.View.extend({
 
 	render : function() {
 		console.log("render event collection");
+		console.log(this.collection);
 		var html = App.render("event-list", {
 			events : this.collection.toJSON()
 		});
