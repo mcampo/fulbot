@@ -7,6 +7,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import fulbot.model.Event;
+import fulbot.model.mail.MessageHeaders;
 import fulbot.persistence.EventDao;
 
 /**
@@ -16,8 +17,6 @@ import fulbot.persistence.EventDao;
  */
 public class MessageProcessor {
 
-	private static final String MIME_HEADER_IN_REPLY_TO = "In-Reply-To";
-	
 	private final EventDao eventDao;
 	private final ContentReader contentReader;
 	private final ContentProcessor contentProcessor;
@@ -35,11 +34,13 @@ public class MessageProcessor {
 		
 		try {
 
-			String inReplyTo = message.getHeader(MIME_HEADER_IN_REPLY_TO, null);
+			String inReplyTo = message.getHeader(MessageHeaders.IN_REPLY_TO, null);
 			Event event = eventDao.findForMessageId(inReplyTo);
 			if (event == null) {
 				event = new Event();
 				event.getEmailData().setSubject(message.getSubject());
+				event.getEmailData().setAddress(message.getHeader(MessageHeaders.DELIVERED_TO, null));
+				event.getEmailData().getReplyTo().add(message.getFrom()[0].toString());
 			}
 			
 			event.getEmailData().getReferences().add(message.getMessageID());

@@ -18,6 +18,7 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
 import fulbot.model.Event;
+import fulbot.model.mail.MessageHeaders;
 import fulbot.persistence.EventDao;
 
 public class MessageProcessorTest {
@@ -46,16 +47,19 @@ public class MessageProcessorTest {
 		ArgumentCaptor<Event> argCaptor = ArgumentCaptor.forClass(Event.class);
 		verify(eventDao).save(argCaptor.capture());
 		Event savedEvent = argCaptor.getValue();
-		assertEquals(savedEvent.getEmailData().getSubject(), message.getSubject());
-		assertEquals(savedEvent.getEmailData().getReferences().size(), 1);
-		assertEquals(savedEvent.getEmailData().getReferences().get(0), message.getMessageID());
+		assertEquals(message.getSubject(), savedEvent.getEmailData().getSubject());
+		assertEquals(message.getHeader(MessageHeaders.DELIVERED_TO, null), savedEvent.getEmailData().getAddress());
+		assertEquals(1, savedEvent.getEmailData().getReplyTo().size());
+		assertEquals(message.getFrom()[0].toString(), savedEvent.getEmailData().getReplyTo().get(0));
+		assertEquals(1, savedEvent.getEmailData().getReferences().size());
+		assertEquals(message.getMessageID(), savedEvent.getEmailData().getReferences().get(0));
 		assertTrue(savedEvent.getAttendance().isEmpty());
 	}
 
 	@Test
 	public void shouldFindEventUsingInReplyToHeader() throws Exception {
 		MimeMessage message = createDefaultTestMessage();
-		message.setHeader("In-Reply-To", "first-message-id");
+		message.setHeader(MessageHeaders.IN_REPLY_TO, "first-message-id");
 		Event existingEvent = new Event();
 		when(eventDao.findForMessageId(eq("first-message-id"))).thenReturn(existingEvent);
 

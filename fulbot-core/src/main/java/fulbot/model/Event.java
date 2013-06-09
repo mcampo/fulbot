@@ -10,7 +10,7 @@ import com.github.jmkgreen.morphia.annotations.Entity;
 import com.github.jmkgreen.morphia.annotations.Id;
 
 /**
- * Represents an event that people will attend
+ * Represents an event that people will attend to
  */
 @Entity("events")
 public class Event {
@@ -22,6 +22,8 @@ public class Event {
 	private EmailData emailData = new EmailData();
 
 	private Set<String> attendance = new HashSet<>();
+
+	private Boolean replyPending = Boolean.TRUE;
 
 	public ObjectId getId() {
 		return id;
@@ -45,6 +47,14 @@ public class Event {
 
 	public void setAttendance(Set<String> attendance) {
 		this.attendance = attendance;
+	}
+
+	public Boolean getReplyPending() {
+		return replyPending;
+	}
+
+	public void setReplyPending(Boolean replyPending) {
+		this.replyPending = replyPending;
 	}
 
 }

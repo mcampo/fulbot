@@ -38,7 +38,8 @@ public class MessageTestHelper {
 		for (String recipient : recipients) {
 			message.addRecipient(RecipientType.TO, new InternetAddress(recipient));
 		}
-		message.setHeader("Message-ID", UUID.randomUUID().toString());
+		message.setHeader(MessageHeaders.DELIVERED_TO, recipients.iterator().next());
+		message.setHeader(MessageHeaders.MESSAGE_ID, UUID.randomUUID().toString());
 		return message;
 	}
 

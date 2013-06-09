@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Controller
-@RequestMapping("/inbound")
-public class InboundController {
+@RequestMapping("/incoming")
+public class IncomingEmailController {
 
-	private static final Logger logger = LoggerFactory.getLogger(InboundController.class);
+	private static final Logger logger = LoggerFactory.getLogger(IncomingEmailController.class);
 	
 	@RequestMapping(method = RequestMethod.HEAD)
 	@ResponseStatus(HttpStatus.OK)
@@ -22,7 +22,7 @@ public class InboundController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.OK)
-	public void processEmail(@RequestBody String json) {
+	public void processInboundMessage(@RequestBody String json) {
 		logger.info(json);
 	}
 	
