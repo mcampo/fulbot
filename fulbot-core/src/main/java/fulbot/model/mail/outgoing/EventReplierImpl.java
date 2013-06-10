@@ -3,6 +3,7 @@ package fulbot.model.mail.outgoing;
 import java.util.List;
 import java.util.Properties;
 
+import javax.inject.Inject;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Message.RecipientType;
@@ -10,13 +11,17 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.springframework.stereotype.Component;
+
 import fulbot.model.Event;
 import fulbot.model.mail.MessageHeaders;
 
+@Component
 public class EventReplierImpl implements EventReplier {
 
 	private MailSender mailSender;
 
+	@Inject
 	public EventReplierImpl(MailSender mailSender) {
 		this.mailSender = mailSender;
 	}
