@@ -9,6 +9,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -70,6 +71,28 @@ public class MessageProcessorTest {
 		Event savedEvent = argCaptor.getValue();
 		assertEquals(existingEvent, savedEvent);
 	}
+
+//	@Test
+//	public void shouldSetReplyToWithFromAndRecipients() throws Exception {
+//		String from = "test.from@domain.com";
+//		String ownAddress = "some-address@fulbot.com";
+//		List<String> recipients = Arrays.asList("test.recipient@domain.com", ownAddress, "test.recipient.2@domain.com");
+//		MimeMessage message = createTestMessage(from, "test subject", "test content", recipients);
+//		message.setHeader(MessageHeaders.DELIVERED_TO, ownAddress);
+//		when(eventDao.findForMessageId(anyString())).thenReturn(null);
+//
+//		messageProcessor.process(message);
+//
+//		ArgumentCaptor<Event> argCaptor = ArgumentCaptor.forClass(Event.class);
+//		verify(eventDao).save(argCaptor.capture());
+//		Event savedEvent = argCaptor.getValue();
+//		List<String> replyTo = savedEvent.getEmailData().getReplyTo();
+//		assertEquals(3, replyTo.size());
+//		assertTrue(replyTo.contains(from));
+//		assertTrue(replyTo.contains("test.recipient@domain.com"));
+//		assertTrue(replyTo.contains("test.recipient.2@domain.com"));
+//		assertFalse(replyTo.contains(ownAddress));
+//	}
 
 	@Test
 	public void shouldUpdateEmailReferencesWhenEventIsFoundForMessage() throws Exception {

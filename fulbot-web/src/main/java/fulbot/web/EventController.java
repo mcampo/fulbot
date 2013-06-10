@@ -3,6 +3,7 @@ package fulbot.web;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.mail.MessagingException;
 
 import org.apache.commons.lang3.Validate;
 import org.bson.types.ObjectId;
@@ -39,7 +40,8 @@ public class EventController {
 	
 	@RequestMapping(value = "/{id}/reply", method = RequestMethod.GET)
 	@ResponseBody
-	public void reply(@PathVariable("id") final ObjectId id) {
+	public void reply(@PathVariable("id") final ObjectId id) throws MessagingException {
+		//TODO: handle exception
 		Event event = eventDao.get(id);
 		eventReplier.reply(event);
 		eventDao.save(event);
