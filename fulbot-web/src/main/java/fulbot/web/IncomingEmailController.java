@@ -1,5 +1,7 @@
 package fulbot.web;
 
+import java.util.HashMap;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -22,8 +24,8 @@ public class IncomingEmailController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.OK)
-	public void processInboundMessage(@RequestBody String json) {
-		logger.info(json);
+	public void processInboundMessage(@RequestBody HashMap json) {
+		logger.info(json.toString());
 	}
 	
 }
