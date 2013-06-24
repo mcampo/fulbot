@@ -15,6 +15,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMessage.RecipientType;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -108,5 +109,10 @@ public class EventReplierImplTest {
 		MimeMessage reply = captor.getValue();
 		assertEquals("second-message", reply.getHeader(MessageHeaders.IN_REPLY_TO, null));
 		
+	}
+	
+	@Test
+	public void replyShouldSetContent() throws Throwable {
+		Assert.fail();
 	}
 }
