@@ -1,7 +1,7 @@
 package fulbot.model.mail.incoming;
 
 import java.util.Collection;
-import java.util.Set;
+import java.util.List;
 
 import org.apache.commons.lang3.Validate;
 
@@ -25,11 +25,13 @@ public class CommandContentProcessor implements ContentProcessor {
 	}
 
 	@Override
-	public void process(String content, String sender, Set<String> attendance) {
+	public void process(String content, String sender, List<String> attendance) {
 		String command = content.split("\n")[0].trim();
 
 		if (matchesAny(command, addCommands)) {
-			attendance.add(sender);
+			if (!attendance.contains(sender)) {
+				attendance.add(sender);
+			}
 		}
 
 		if (matchesAny(command, removeCommands)) {

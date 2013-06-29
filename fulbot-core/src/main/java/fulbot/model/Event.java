@@ -1,7 +1,7 @@
 package fulbot.model;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.bson.types.ObjectId;
 
@@ -21,7 +21,7 @@ public class Event {
 	@Embedded
 	private EmailData emailData = new EmailData();
 
-	private Set<String> attendance = new HashSet<>();
+	private List<String> attendance = new ArrayList<>();
 
 	private Boolean replyPending = Boolean.TRUE;
 
@@ -41,11 +41,11 @@ public class Event {
 		this.emailData = emailData;
 	}
 
-	public Set<String> getAttendance() {
+	public List<String> getAttendance() {
 		return attendance;
 	}
 
-	public void setAttendance(Set<String> attendance) {
+	public void setAttendance(List<String> attendance) {
 		this.attendance = attendance;
 	}
 

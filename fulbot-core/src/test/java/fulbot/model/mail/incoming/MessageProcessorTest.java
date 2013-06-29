@@ -1,14 +1,20 @@
 package fulbot.model.mail.incoming;
 
-import static fulbot.model.mail.MessageTestHelper.*;
-import static org.junit.Assert.*;
-import static org.mockito.Matchers.*;
-import static org.mockito.Mockito.*;
+import static fulbot.model.mail.MessageTestHelper.createDefaultTestMessage;
+import static fulbot.model.mail.MessageTestHelper.createTestMessage;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 
 import javax.mail.internet.InternetAddress;
@@ -127,7 +133,7 @@ public class MessageProcessorTest {
 		MimeMessage message = createDefaultTestMessage();
 		message.setFrom(new InternetAddress(sender));
 		Event existingEvent = new Event();
-		existingEvent.setAttendance(new HashSet<String>(Arrays.asList("anAttendee", "anotherAttendee")));
+		existingEvent.setAttendance(new ArrayList<String>(Arrays.asList("anAttendee", "anotherAttendee")));
 		when(eventDao.findForMessageId(anyString())).thenReturn(existingEvent);
 
 		messageProcessor.process(message);

@@ -1,6 +1,6 @@
 package fulbot.model.mail.incoming;
 
-import java.util.Set;
+import java.util.List;
 
 public interface ContentProcessor {
 
@@ -15,6 +15,6 @@ public interface ContentProcessor {
 	 * @param attendance
 	 *            the current attendance list
 	 */
-	public void process(String content, String sender, Set<String> attendance);
+	public void process(String content, String sender, List<String> attendance);
 
 }
