@@ -38,8 +38,12 @@ public class MessageProcessor {
 		
 		try {
 
+			//TODO refactor this
+			Event event = null;
 			String inReplyTo = message.getHeader(MessageHeaders.IN_REPLY_TO, null);
-			Event event = eventDao.findForMessageId(inReplyTo);
+			if (inReplyTo != null) {
+				event = eventDao.findForMessageId(inReplyTo);
+			}
 			if (event == null) {
 				event = new Event();
 				event.getEmailData().setSubject(getSubject(message));

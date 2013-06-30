@@ -5,10 +5,12 @@ import static fulbot.model.mail.MessageTestHelper.createTestMessage;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -45,8 +47,24 @@ public class MessageProcessorTest {
 	}
 
 	@Test
+	public void shouldFindEventUsingInReplyToHeader() throws Exception {
+		MimeMessage message = createDefaultTestMessage();
+		message.setHeader(MessageHeaders.IN_REPLY_TO, "first-message-id");
+		Event existingEvent = new Event();
+		when(eventDao.findForMessageId(eq("first-message-id"))).thenReturn(existingEvent);
+
+		messageProcessor.process(message);
+
+		ArgumentCaptor<Event> argCaptor = ArgumentCaptor.forClass(Event.class);
+		verify(eventDao).save(argCaptor.capture());
+		Event savedEvent = argCaptor.getValue();
+		assertEquals(existingEvent, savedEvent);
+	}
+
+	@Test
 	public void shouldCreateAnEventWhenNoEventIsFoundForMessage() throws Exception {
 		MimeMessage message = createDefaultTestMessage();
+		message.setHeader(MessageHeaders.IN_REPLY_TO, "non-existent-message-id");
 		when(eventDao.findForMessageId(anyString())).thenReturn(null);
 
 		messageProcessor.process(message);
@@ -64,18 +82,22 @@ public class MessageProcessorTest {
 	}
 
 	@Test
-	public void shouldFindEventUsingInReplyToHeader() throws Exception {
+	public void shouldCreateAnEventWhenMessageHasNoInReplyToHeader() throws Exception {
 		MimeMessage message = createDefaultTestMessage();
-		message.setHeader(MessageHeaders.IN_REPLY_TO, "first-message-id");
-		Event existingEvent = new Event();
-		when(eventDao.findForMessageId(eq("first-message-id"))).thenReturn(existingEvent);
 
 		messageProcessor.process(message);
 
+		verify(eventDao, never()).findForMessageId(anyString());
 		ArgumentCaptor<Event> argCaptor = ArgumentCaptor.forClass(Event.class);
 		verify(eventDao).save(argCaptor.capture());
 		Event savedEvent = argCaptor.getValue();
-		assertEquals(existingEvent, savedEvent);
+		assertEquals(message.getSubject(), savedEvent.getEmailData().getSubject());
+		assertEquals(message.getHeader(MessageHeaders.DELIVERED_TO, null), savedEvent.getEmailData().getAddress());
+		assertEquals(1, savedEvent.getEmailData().getReplyTo().size());
+		assertEquals(message.getFrom()[0].toString(), savedEvent.getEmailData().getReplyTo().get(0));
+		assertEquals(1, savedEvent.getEmailData().getReferences().size());
+		assertEquals(message.getMessageID(), savedEvent.getEmailData().getReferences().get(0));
+		assertTrue(savedEvent.getAttendance().isEmpty());
 	}
 
 	@Test
@@ -85,8 +107,7 @@ public class MessageProcessorTest {
 		List<String> recipients = Arrays.asList("test.recipient@domain.com", ownAddress, "test.recipient.2@domain.com");
 		MimeMessage message = createTestMessage(from, "test subject", "test content", recipients);
 		message.setHeader(MessageHeaders.DELIVERED_TO, ownAddress);
-		when(eventDao.findForMessageId(anyString())).thenReturn(null);
-
+	
 		messageProcessor.process(message);
 
 		ArgumentCaptor<Event> argCaptor = ArgumentCaptor.forClass(Event.class);
@@ -99,13 +120,19 @@ public class MessageProcessorTest {
 		assertTrue(replyTo.contains("test.recipient.2@domain.com"));
 		assertFalse(replyTo.contains(ownAddress));
 	}
+	
+//	@Test
+//	public void shouldSetReplyToUsingOnlyReplyToHeaderWhenPresent() throws Exception {
+//		fail();
+//	}
 
 	@Test
 	public void shouldUpdateEmailReferencesWhenEventIsFoundForMessage() throws Exception {
 		MimeMessage message = createDefaultTestMessage();
+		message.setHeader(MessageHeaders.IN_REPLY_TO, "first-message-id");
 		Event existingEvent = new Event();
 		existingEvent.getEmailData().setReferences(new ArrayList<String>(Arrays.asList("first-message-id", "second-message-id")));
-		when(eventDao.findForMessageId(anyString())).thenReturn(existingEvent);
+		when(eventDao.findForMessageId(eq("first-message-id"))).thenReturn(existingEvent);
 		
 
 		messageProcessor.process(message);
@@ -120,7 +147,6 @@ public class MessageProcessorTest {
 	@Test
 	public void shouldReadMessageContentUsingContentReader() throws Exception {
 		MimeMessage message = createDefaultTestMessage();
-		when(eventDao.findForMessageId(anyString())).thenReturn(null);
 
 		messageProcessor.process(message);
 
@@ -132,9 +158,10 @@ public class MessageProcessorTest {
 		String sender = "test.sender@domain.com";
 		MimeMessage message = createDefaultTestMessage();
 		message.setFrom(new InternetAddress(sender));
+		message.setHeader(MessageHeaders.IN_REPLY_TO, "first-message-id");
 		Event existingEvent = new Event();
 		existingEvent.setAttendance(new ArrayList<String>(Arrays.asList("anAttendee", "anotherAttendee")));
-		when(eventDao.findForMessageId(anyString())).thenReturn(existingEvent);
+		when(eventDao.findForMessageId(eq("first-message-id"))).thenReturn(existingEvent);
 
 		messageProcessor.process(message);
 
@@ -146,7 +173,6 @@ public class MessageProcessorTest {
 		MimeMessage message = createDefaultTestMessage();
 		String originalSubject = message.getSubject();
 		message.setSubject("Re: " + originalSubject);
-		when(eventDao.findForMessageId(anyString())).thenReturn(null);
 
 		messageProcessor.process(message);
 

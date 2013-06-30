@@ -3,9 +3,7 @@ package fulbot.model.mail.outgoing;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 import java.util.Arrays;
 
@@ -15,7 +13,6 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMessage.RecipientType;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -27,17 +24,21 @@ public class EventReplierImplTest {
 
 	private EventReplierImpl eventReplier;
 	private MailSender mailSender;
+	private ContentCreator contentCreator;
 	
 	private Event event;
 
 	@Before
 	public void setUp() throws Exception {
 		mailSender = mock(MailSender.class);
-		eventReplier = new EventReplierImpl(mailSender);
+		contentCreator = mock(ContentCreator.class);
+		eventReplier = new EventReplierImpl(mailSender, contentCreator);
 		
 		event = new Event();
 		event.getEmailData().setAddress("some-address@fulbot.com");
 		event.setReplyPending(false);
+		
+		when(contentCreator.createContent(any(Event.class))).thenReturn("dummy content");
 	}
 
 	@Test
@@ -108,11 +109,18 @@ public class EventReplierImplTest {
 		verify(mailSender).send(captor.capture());
 		MimeMessage reply = captor.getValue();
 		assertEquals("second-message", reply.getHeader(MessageHeaders.IN_REPLY_TO, null));
-		
 	}
 	
 	@Test
 	public void replyShouldSetContent() throws Throwable {
-		Assert.fail();
+		String expectedContent = "expected reply content";
+		when(contentCreator.createContent(eq(event))).thenReturn(expectedContent);
+
+		eventReplier.reply(event);
+
+		ArgumentCaptor<MimeMessage> captor = ArgumentCaptor.forClass(MimeMessage.class);
+		verify(mailSender).send(captor.capture());
+		MimeMessage reply = captor.getValue();
+		assertEquals(expectedContent, reply.getContent());
 	}
 }

@@ -19,25 +19,32 @@ import fulbot.model.mail.MessageHeaders;
 @Component
 public class EventReplierImpl implements EventReplier {
 
-	private MailSender mailSender;
+	private final MailSender mailSender;
+	private final ContentCreator contentCreator;
 
 	@Inject
-	public EventReplierImpl(MailSender mailSender) {
+	public EventReplierImpl(MailSender mailSender, ContentCreator contentCreator) {
 		this.mailSender = mailSender;
+		this.contentCreator = contentCreator;
 	}
 
 	@Override
 	public void reply(Event event) throws MessagingException {
-
 		MimeMessage reply = new MimeMessage(Session.getDefaultInstance(new Properties()));
 
 		setSubject(reply, event);
 		setFrom(reply, event);
 		setRecipients(reply, event);
 		setInReplyToHeader(reply, event);
+		setContent(reply, event);
 
 		mailSender.send(reply);
 		event.setReplyPending(false);
+	}
+
+	private void setContent(MimeMessage reply, Event event) throws MessagingException {
+		String replyContent = contentCreator.createContent(event);
+		reply.setText(replyContent, "utf-8");
 	}
 
 	private void setSubject(MimeMessage reply, Event event) throws MessagingException {
