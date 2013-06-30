@@ -121,10 +121,10 @@ public class MessageProcessorTest {
 		assertFalse(replyTo.contains(ownAddress));
 	}
 	
-//	@Test
-//	public void shouldSetReplyToUsingOnlyReplyToHeaderWhenPresent() throws Exception {
-//		fail();
-//	}
+	@Test
+	public void shouldSetReplyToUsingOnlyReplyToHeaderWhenPresent() throws Exception {
+		fail();
+	}
 
 	@Test
 	public void shouldUpdateEmailReferencesWhenEventIsFoundForMessage() throws Exception {
