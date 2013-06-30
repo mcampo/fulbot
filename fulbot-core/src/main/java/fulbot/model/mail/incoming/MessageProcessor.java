@@ -78,6 +78,12 @@ public class MessageProcessor {
 		//reset the reply-to list
 		event.getEmailData().getReplyTo().clear();
 
+		String replyToHeader = message.getHeader(MessageHeaders.REPLY_TO, null);
+		if(replyToHeader != null) {
+			event.getEmailData().getReplyTo().add(replyToHeader);
+			return;
+		}
+		
 		//add email sender
 		event.getEmailData().getReplyTo().add(message.getFrom()[0].toString());
 

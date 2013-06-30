@@ -5,7 +5,6 @@ import static fulbot.model.mail.MessageTestHelper.createTestMessage;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
@@ -123,7 +122,21 @@ public class MessageProcessorTest {
 	
 	@Test
 	public void shouldSetReplyToUsingOnlyReplyToHeaderWhenPresent() throws Exception {
-		fail();
+		String from = "test.from@domain.com";
+		String ownAddress = "some-address@fulbot.com";
+		List<String> recipients = Arrays.asList("test.recipient@domain.com", ownAddress, "test.recipient.2@domain.com");
+		MimeMessage message = createTestMessage(from, "test subject", "test content", recipients);
+		message.setHeader(MessageHeaders.DELIVERED_TO, ownAddress);
+		message.setHeader(MessageHeaders.REPLY_TO, "reply.address@domain.com");
+	
+		messageProcessor.process(message);
+
+		ArgumentCaptor<Event> argCaptor = ArgumentCaptor.forClass(Event.class);
+		verify(eventDao).save(argCaptor.capture());
+		Event savedEvent = argCaptor.getValue();
+		List<String> replyTo = savedEvent.getEmailData().getReplyTo();
+		assertEquals(1, replyTo.size());
+		assertTrue(replyTo.contains("reply.address@domain.com"));
 	}
 
 	@Test

@@ -8,5 +8,6 @@ public interface MessageHeaders {
 	public static final String MESSAGE_ID = "Message-ID";
 	public static final String IN_REPLY_TO = "In-Reply-To";
 	public static final String DELIVERED_TO = "Delivered-To";
+	public static final String REPLY_TO = "Reply-To";
 
 }
