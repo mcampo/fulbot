@@ -3,9 +3,7 @@ package fulbot.model.mail.outgoing;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 
-import org.springframework.stereotype.Component;
-
-@Component
+//TODO move to service package
 public class SmtpMailSender implements MailSender {
 
 	@Override

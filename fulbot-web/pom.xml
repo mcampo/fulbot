@@ -31,6 +31,14 @@
 		</dependency>
 
 		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>fulbot-core</artifactId>
+			<version>${project.version}</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
 			<groupId>com.github.jknack</groupId>
 			<artifactId>mwa-web</artifactId>
 			<version>${mwa-version}</version>

@@ -10,6 +10,7 @@ import javax.mail.internet.MimeMessage;
 
 import org.junit.Test;
 
+import fulbot.TestHelper;
 import fulbot.model.mail.MessageTestHelper;
 
 public class TextPlainContentReaderTest {
@@ -18,7 +19,7 @@ public class TextPlainContentReaderTest {
 
 	@Test
 	public void testReadTextPlainOnly() throws Exception {
-		String expectedContent = MessageTestHelper.readFile(RESOURCES_BASE + "text_plain_only.expected.txt");
+		String expectedContent = TestHelper.readFile(RESOURCES_BASE + "text_plain_only.expected.txt");
 		MimeMessage message = MessageTestHelper.getMessage(RESOURCES_BASE + "text_plain_only.txt");
 
 		String content = readMessageContents(message);
@@ -28,7 +29,7 @@ public class TextPlainContentReaderTest {
 
 	@Test
 	public void testReadTextPlainAndTextHtml() throws Exception {
-		String expectedContent = MessageTestHelper.readFile(RESOURCES_BASE + "text_plain_and_text_html.expected.txt");
+		String expectedContent = TestHelper.readFile(RESOURCES_BASE + "text_plain_and_text_html.expected.txt");
 		MimeMessage message = MessageTestHelper.getMessage(RESOURCES_BASE + "text_plain_and_text_html.txt");
 
 		String content = readMessageContents(message);

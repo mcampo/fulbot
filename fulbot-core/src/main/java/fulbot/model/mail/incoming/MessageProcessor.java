@@ -5,10 +5,13 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.regex.Pattern;
 
+import javax.inject.Inject;
 import javax.mail.Address;
 import javax.mail.Message.RecipientType;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+
+import org.springframework.stereotype.Component;
 
 import fulbot.model.Event;
 import fulbot.model.mail.MessageHeaders;
@@ -19,15 +22,14 @@ import fulbot.persistence.EventDao;
  * 
  * Finds or creates an event for the message and updates the attendace.
  */
+@Component
 public class MessageProcessor {
 
 	private final EventDao eventDao;
 	private final ContentReader contentReader;
 	private final ContentProcessor contentProcessor;
 
-	/**
-	 * @param eventDao used for finding and saving events
-	 */
+	@Inject
 	public MessageProcessor(EventDao eventDao, ContentReader contentReader, ContentProcessor contentProcessor) {
 		this.eventDao = eventDao;
 		this.contentReader = contentReader;
@@ -38,12 +40,15 @@ public class MessageProcessor {
 		
 		try {
 
-			//TODO refactor this
 			Event event = null;
+			
+			// if this message is a reply to another one, try to find an event
+			// that references it
 			String inReplyTo = message.getHeader(MessageHeaders.IN_REPLY_TO, null);
 			if (inReplyTo != null) {
 				event = eventDao.findForMessageId(inReplyTo);
 			}
+
 			if (event == null) {
 				event = new Event();
 				event.getEmailData().setSubject(getSubject(message));

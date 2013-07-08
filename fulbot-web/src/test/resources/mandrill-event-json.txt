@@ -1,0 +1,106 @@
+[
+  {
+    "event": "inbound",
+    "ts": 1371221739,
+    "msg": {
+      "raw_msg": "Received: from mail-bk0-f44.google.com (mail-bk0-f44.google.com [209.85.214.44])\n\tby ip-10-249-27-209 (Postfix) with ESMTPS id C8435E1C107\n\tfor <test@fulbot.com.ar>; Fri, 14 Jun 2013 14:55:38 +0000 (UTC)\nReceived: by mail-bk0-f44.google.com with SMTP id r7so318135bkg.3\n        for <test@fulbot.com.ar>; Fri, 14 Jun 2013 07:55:37 -0700 (PDT)\nDKIM-Signature: v=1; a=rsa-sha256; c=relaxed\/relaxed;\n        d=gmail.com; s=20120113;\n        h=mime-version:date:message-id:subject:from:to:content-type;\n        bh=FkflK8h45TB\/p6ZiKEWc7NWDhcYPW+gZFLg9jX\/qnqY=;\n        b=gMjufclMp3gEY\/xL2YegkrBiqFFA4m++DCSrCY4GGQ22mEzsTGxnMYss\/baTe2TCJD\n         Ky8ywh\/krL43LI+MhQs7WWgv04etERVxpbqCLoWzol5XL7ISDiFd1XvylvQvJEhzMkLf\n         bjd4gpPMtDNYD6X0lvVMR3JBegM4ozP5YwWbcVbPi\/bm4QH8jOskq0V+M33MuPzDF4z0\n         MiTxfki5lrstHcXJoCynyHtHAScA+SCfQaWLKi408Eias0mY1HFjPlQ5O1+VqcQUvkHf\n         +vyFD77Iv5kreYesG8fme3FDEBROTTnMCMRlPIsLw\/tKCdn0oPngC3125xgyd1AYw46q\n         FJCw==\nMIME-Version: 1.0\nX-Received: by 10.204.187.70 with SMTP id cv6mr395434bkb.6.1371221737162; Fri,\n 14 Jun 2013 07:55:37 -0700 (PDT)\nReceived: by 10.204.40.16 with HTTP; Fri, 14 Jun 2013 07:55:37 -0700 (PDT)\nDate: Fri, 14 Jun 2013 11:55:37 -0300\nMessage-ID: <CAGUhvwEMOZX82_J8yhxX4hVA_nT_fBott6Dc1WvrTq_oc36oYg@mail.gmail.com>\nSubject: Test\nFrom: Mariano Campo <mcampo85@gmail.com>\nTo: test@fulbot.com.ar\nContent-Type: multipart\/alternative; boundary=20cf302ad35e8d8a0c04df1e7032\n\n--20cf302ad35e8d8a0c04df1e7032\nContent-Type: text\/plain; charset=ISO-8859-1\n\nSaraza\n\nlala\n\n--20cf302ad35e8d8a0c04df1e7032\nContent-Type: text\/html; charset=ISO-8859-1\n\n<div dir=\"ltr\">Saraza<div><br><\/div><div>lala<\/div><\/div>\n\n--20cf302ad35e8d8a0c04df1e7032--",
+      "headers": {
+        "Received": [
+          "from mail-bk0-f44.google.com (mail-bk0-f44.google.com [209.85.214.44]) by ip-10-249-27-209 (Postfix) with ESMTPS id C8435E1C107 for <test@fulbot.com.ar>; Fri, 14 Jun 2013 14:55:38 +0000 (UTC)",
+          "by mail-bk0-f44.google.com with SMTP id r7so318135bkg.3 for <test@fulbot.com.ar>; Fri, 14 Jun 2013 07:55:37 -0700 (PDT)",
+          "by 10.204.40.16 with HTTP; Fri, 14 Jun 2013 07:55:37 -0700 (PDT)"
+        ],
+        "Dkim-Signature": "v=1; a=rsa-sha256; c=relaxed\/relaxed; d=gmail.com; s=20120113; h=mime-version:date:message-id:subject:from:to:content-type; bh=FkflK8h45TB\/p6ZiKEWc7NWDhcYPW+gZFLg9jX\/qnqY=; b=gMjufclMp3gEY\/xL2YegkrBiqFFA4m++DCSrCY4GGQ22mEzsTGxnMYss\/baTe2TCJD Ky8ywh\/krL43LI+MhQs7WWgv04etERVxpbqCLoWzol5XL7ISDiFd1XvylvQvJEhzMkLf bjd4gpPMtDNYD6X0lvVMR3JBegM4ozP5YwWbcVbPi\/bm4QH8jOskq0V+M33MuPzDF4z0 MiTxfki5lrstHcXJoCynyHtHAScA+SCfQaWLKi408Eias0mY1HFjPlQ5O1+VqcQUvkHf +vyFD77Iv5kreYesG8fme3FDEBROTTnMCMRlPIsLw\/tKCdn0oPngC3125xgyd1AYw46q FJCw==",
+        "Mime-Version": "1.0",
+        "X-Received": "by 10.204.187.70 with SMTP id cv6mr395434bkb.6.1371221737162; Fri, 14 Jun 2013 07:55:37 -0700 (PDT)",
+        "Date": "Fri, 14 Jun 2013 11:55:37 -0300",
+        "Message-Id": "<CAGUhvwEMOZX82_J8yhxX4hVA_nT_fBott6Dc1WvrTq_oc36oYg@mail.gmail.com>",
+        "Subject": "Test",
+        "From": "Mariano Campo <mcampo85@gmail.com>",
+        "To": "test@fulbot.com.ar",
+        "Content-Type": "multipart\/alternative; boundary=20cf302ad35e8d8a0c04df1e7032"
+      },
+      "text": "Saraza\n\nlala\n\n",
+      "text_flowed": false,
+      "html": "<div dir=\"ltr\">Saraza<div><br><\/div><div>lala<\/div><\/div>\n\n",
+      "from_email": "mcampo85@gmail.com",
+      "from_name": "Mariano Campo",
+      "to": [
+        [
+          "test@fulbot.com.ar",
+          null
+        ]
+      ],
+      "subject": "Test",
+      "spam_report": {
+        "score": -0.1,
+        "matched_rules": [
+          {
+            "name": "FREEMAIL_FROM",
+            "score": 0,
+            "description": "Sender email is commonly abused enduser mail provider"
+          },
+          {
+            "name": null,
+            "score": 0,
+            "description": null
+          },
+          {
+            "name": "LOCALPART_IN_SUBJECT",
+            "score": 0.7,
+            "description": "Local part of To: address appears in Subject"
+          },
+          {
+            "name": "HTML_MESSAGE",
+            "score": 0,
+            "description": "BODY: HTML included in message"
+          },
+          {
+            "name": "DKIM_VALID_AU",
+            "score": -0.1,
+            "description": "Message has a valid DKIM or DK signature from author's"
+          },
+          {
+            "name": "DKIM_SIGNED",
+            "score": 0.1,
+            "description": "Message has a DKIM or DK signature, not necessarily valid"
+          },
+          {
+            "name": "DKIM_VALID",
+            "score": -0.1,
+            "description": "Message has at least one valid DKIM or DK signature"
+          },
+          {
+            "name": "RCVD_IN_DNSWL_LOW",
+            "score": -0.7,
+            "description": "RBL: Sender listed at http:\/\/www.dnswl.org\/, low"
+          },
+          {
+            "name": "listed",
+            "score": 0,
+            "description": "in list.dnswl.org]"
+          },
+          {
+            "name": "TVD_SPACE_RATIO",
+            "score": 0,
+            "description": "TVD_SPACE_RATIO"
+          }
+        ]
+      },
+      "dkim": {
+        "signed": true,
+        "valid": true
+      },
+      "spf": {
+        "result": "pass",
+        "detail": "sender SPF authorized"
+      },
+      "email": "test@fulbot.com.ar",
+      "tags": [
+        
+      ],
+      "sender": null,
+      "template": null
+    }
+  }
+]

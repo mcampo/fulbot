@@ -1,10 +1,10 @@
 package fulbot.persistence;
 
 import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.github.jmkgreen.morphia.Datastore;
@@ -20,7 +20,7 @@ public class IndexesInitializer {
 
 	private Datastore datastore;
 
-	@Autowired
+	@Inject
 	public IndexesInitializer(Datastore datastore) {
 		this.datastore = datastore;
 	}
