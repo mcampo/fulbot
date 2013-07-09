@@ -1,15 +1,18 @@
 package fulbot.persistence.mongo;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
 
-import com.mongodb.BasicDBList;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
 
 public class MongoIncomingEmailDaoTest {
 
@@ -31,9 +34,7 @@ public class MongoIncomingEmailDaoTest {
 	public void saveShouldSaveJsonArrays() {
 		dao.save("[{name: \"John\"}, {name: \"Paul\"}]");
 		
-		ArgumentCaptor<BasicDBList> captor = ArgumentCaptor.forClass(BasicDBList.class);
-		verify(dbCollection).insert(captor.capture());
-		assertEquals(2, captor.getValue().size());
+		verify(dbCollection, times(2)).insert(any(DBObject.class));
 	}
 
 }

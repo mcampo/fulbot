@@ -4,6 +4,7 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Repository;
 
+import com.mongodb.BasicDBList;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
@@ -24,8 +25,11 @@ public class MongoIncomingEmailDao implements IncomingEmailDao {
 
 	@Override
 	public void save(String incomingEmailJson) {
-		DBObject parse = (DBObject) JSON.parse(incomingEmailJson);
-		getCollection().insert(parse);
+		DBCollection collection = getCollection();
+		BasicDBList parsedObjects = (BasicDBList) JSON.parse(incomingEmailJson);
+		for (Object incomingEmail : parsedObjects) {
+			collection.insert((DBObject)incomingEmail);
+		}
 	}
 
 	private DBCollection getCollection() {
