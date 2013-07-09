@@ -1,7 +1,8 @@
 package fulbot.model;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -18,9 +19,9 @@ import fulbot.model.mail.outgoing.SmtpMailSender;
 public class ModelModule {
 
 	@Bean
-	public ContentProcessor contentProcessor() {
-		//TODO take commands from properties file
-		return new CommandContentProcessor(new ArrayList<String>(), new ArrayList<String>());
+	public ContentProcessor contentProcessor(@Value("${commands.add}") final String[] addCommands,
+												@Value("${commands.remove}") final String[] removeCommands) {
+		return new CommandContentProcessor(Arrays.asList(addCommands), Arrays.asList(removeCommands));
 	}
 	
 	@Bean
