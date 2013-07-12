@@ -6,6 +6,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
 import java.util.Arrays;
+import java.util.HashSet;
 
 import javax.mail.Address;
 import javax.mail.Message;
@@ -66,7 +67,7 @@ public class EventReplierImplTest {
 
 	@Test
 	public void replyShouldSetEmailRecipients() throws Throwable {
-		event.getEmailData().setReplyTo(Arrays.asList("recipient1@test.com", "recipient2@test.com"));
+		event.getEmailData().setReplyTo(new HashSet<>(Arrays.asList("recipient1@test.com", "recipient2@test.com")));
 		
 		eventReplier.reply(event);
 

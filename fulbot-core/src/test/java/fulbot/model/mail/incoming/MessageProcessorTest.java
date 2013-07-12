@@ -17,6 +17,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -74,7 +75,7 @@ public class MessageProcessorTest {
 		assertEquals(message.getSubject(), savedEvent.getEmailData().getSubject());
 		assertEquals(message.getHeader(MessageHeaders.DELIVERED_TO, null), savedEvent.getEmailData().getAddress());
 		assertEquals(1, savedEvent.getEmailData().getReplyTo().size());
-		assertEquals(message.getFrom()[0].toString(), savedEvent.getEmailData().getReplyTo().get(0));
+		assertTrue(savedEvent.getEmailData().getReplyTo().contains(message.getFrom()[0].toString()));
 		assertEquals(1, savedEvent.getEmailData().getReferences().size());
 		assertEquals(message.getMessageID(), savedEvent.getEmailData().getReferences().get(0));
 		assertTrue(savedEvent.getAttendance().isEmpty());
@@ -93,7 +94,7 @@ public class MessageProcessorTest {
 		assertEquals(message.getSubject(), savedEvent.getEmailData().getSubject());
 		assertEquals(message.getHeader(MessageHeaders.DELIVERED_TO, null), savedEvent.getEmailData().getAddress());
 		assertEquals(1, savedEvent.getEmailData().getReplyTo().size());
-		assertEquals(message.getFrom()[0].toString(), savedEvent.getEmailData().getReplyTo().get(0));
+		assertTrue(savedEvent.getEmailData().getReplyTo().contains(message.getFrom()[0].toString()));
 		assertEquals(1, savedEvent.getEmailData().getReferences().size());
 		assertEquals(message.getMessageID(), savedEvent.getEmailData().getReferences().get(0));
 		assertTrue(savedEvent.getAttendance().isEmpty());
@@ -103,7 +104,8 @@ public class MessageProcessorTest {
 	public void shouldSetReplyToWithFromAndRecipients() throws Exception {
 		String from = "test.from@domain.com";
 		String ownAddress = "some-address@fulbot.com";
-		List<String> recipients = Arrays.asList("test.recipient@domain.com", ownAddress, "test.recipient.2@domain.com");
+		//'from' address is added to recipients, but it should be added only once
+		List<String> recipients = Arrays.asList("test.recipient@domain.com", ownAddress, "test.recipient.2@domain.com", "test.from@domain.com");
 		MimeMessage message = createTestMessage(from, "test subject", "test content", recipients);
 		message.setHeader(MessageHeaders.DELIVERED_TO, ownAddress);
 	
@@ -112,14 +114,14 @@ public class MessageProcessorTest {
 		ArgumentCaptor<Event> argCaptor = ArgumentCaptor.forClass(Event.class);
 		verify(eventDao).save(argCaptor.capture());
 		Event savedEvent = argCaptor.getValue();
-		List<String> replyTo = savedEvent.getEmailData().getReplyTo();
+		Set<String> replyTo = savedEvent.getEmailData().getReplyTo();
 		assertEquals(3, replyTo.size());
 		assertTrue(replyTo.contains(from));
 		assertTrue(replyTo.contains("test.recipient@domain.com"));
 		assertTrue(replyTo.contains("test.recipient.2@domain.com"));
 		assertFalse(replyTo.contains(ownAddress));
 	}
-	
+
 	@Test
 	public void shouldSetReplyToUsingOnlyReplyToHeaderWhenPresent() throws Exception {
 		String from = "test.from@domain.com";
@@ -134,7 +136,7 @@ public class MessageProcessorTest {
 		ArgumentCaptor<Event> argCaptor = ArgumentCaptor.forClass(Event.class);
 		verify(eventDao).save(argCaptor.capture());
 		Event savedEvent = argCaptor.getValue();
-		List<String> replyTo = savedEvent.getEmailData().getReplyTo();
+		Set<String> replyTo = savedEvent.getEmailData().getReplyTo();
 		assertEquals(1, replyTo.size());
 		assertTrue(replyTo.contains("reply.address@domain.com"));
 	}

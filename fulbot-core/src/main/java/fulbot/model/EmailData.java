@@ -1,7 +1,9 @@
 package fulbot.model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.github.jmkgreen.morphia.annotations.Indexed;
 
@@ -29,7 +31,7 @@ public class EmailData {
 	/**
 	 * List of email addresses to send a reply to
 	 */
-	private List<String> replyTo = new ArrayList<>();
+	private Set<String> replyTo = new HashSet<>();
 
 	public String getSubject() {
 		return subject;
@@ -55,11 +57,11 @@ public class EmailData {
 		this.references = references;
 	}
 
-	public List<String> getReplyTo() {
+	public Set<String> getReplyTo() {
 		return replyTo;
 	}
 
-	public void setReplyTo(List<String> replyTo) {
+	public void setReplyTo(Set<String> replyTo) {
 		this.replyTo = replyTo;
 	}
 
