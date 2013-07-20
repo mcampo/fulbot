@@ -40,14 +40,7 @@ public class MessageProcessor {
 		
 		try {
 
-			Event event = null;
-			
-			// if this message is a reply to another one, try to find an event
-			// that references it
-			String inReplyTo = message.getHeader(MessageHeaders.IN_REPLY_TO, null);
-			if (inReplyTo != null) {
-				event = eventDao.findForMessageId(inReplyTo);
-			}
+			Event event = findEvent(message);
 
 			if (event == null) {
 				event = new Event();
@@ -69,6 +62,19 @@ public class MessageProcessor {
 			throw new RuntimeException(e);
 		}
 
+	}
+
+	private Event findEvent(MimeMessage message) throws MessagingException {
+		String[] references = message.getHeader(MessageHeaders.REFERENCES);
+		if (references != null) {
+			for (String messageId : references) {
+				Event event = eventDao.findForMessageId(messageId);
+				if (event != null) {
+					return event;
+				}
+			}
+		}
+		return null;
 	}
 
 	private String getSubject(MimeMessage message) throws MessagingException {

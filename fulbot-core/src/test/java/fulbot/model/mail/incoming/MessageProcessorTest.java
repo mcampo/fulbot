@@ -47,9 +47,9 @@ public class MessageProcessorTest {
 	}
 
 	@Test
-	public void shouldFindEventUsingInReplyToHeader() throws Exception {
+	public void shouldFindEventUsingReferencesHeader() throws Exception {
 		MimeMessage message = createDefaultTestMessage();
-		message.setHeader(MessageHeaders.IN_REPLY_TO, "first-message-id");
+		message.setHeader(MessageHeaders.REFERENCES, "first-message-id");
 		Event existingEvent = new Event();
 		when(eventDao.findForMessageId(eq("first-message-id"))).thenReturn(existingEvent);
 
@@ -62,9 +62,30 @@ public class MessageProcessorTest {
 	}
 
 	@Test
+	public void shouldFindEventWhenMessageReferencesBothAnUnknownMessageAndAKnownMessage() throws Exception {
+		//A -> B -> C
+		//server only knows A. 
+		//C comes in reply to B, but it also references A
+		MimeMessage message = createDefaultTestMessage();
+		message.addHeader(MessageHeaders.REFERENCES, "first-message-id");
+		message.addHeader(MessageHeaders.REFERENCES, "second-message-id");
+		Event existingEvent = new Event();
+		existingEvent.getEmailData().getReferences().add("first-message-id");
+		when(eventDao.findForMessageId(eq("first-message-id"))).thenReturn(existingEvent);
+		when(eventDao.findForMessageId(eq("second-message-id"))).thenReturn(null);
+
+		messageProcessor.process(message);
+
+		ArgumentCaptor<Event> argCaptor = ArgumentCaptor.forClass(Event.class);
+		verify(eventDao).save(argCaptor.capture());
+		Event savedEvent = argCaptor.getValue();
+		assertEquals(existingEvent, savedEvent);
+	}
+
+	@Test
 	public void shouldCreateAnEventWhenNoEventIsFoundForMessage() throws Exception {
 		MimeMessage message = createDefaultTestMessage();
-		message.setHeader(MessageHeaders.IN_REPLY_TO, "non-existent-message-id");
+		message.setHeader(MessageHeaders.REFERENCES, "non-existent-message-id");
 		when(eventDao.findForMessageId(anyString())).thenReturn(null);
 
 		messageProcessor.process(message);
@@ -144,7 +165,7 @@ public class MessageProcessorTest {
 	@Test
 	public void shouldUpdateEmailReferencesWhenEventIsFoundForMessage() throws Exception {
 		MimeMessage message = createDefaultTestMessage();
-		message.setHeader(MessageHeaders.IN_REPLY_TO, "first-message-id");
+		message.setHeader(MessageHeaders.REFERENCES, "first-message-id");
 		Event existingEvent = new Event();
 		existingEvent.getEmailData().setReferences(new ArrayList<String>(Arrays.asList("first-message-id", "second-message-id")));
 		when(eventDao.findForMessageId(eq("first-message-id"))).thenReturn(existingEvent);
@@ -173,7 +194,7 @@ public class MessageProcessorTest {
 		String sender = "test.sender@domain.com";
 		MimeMessage message = createDefaultTestMessage();
 		message.setFrom(new InternetAddress(sender));
-		message.setHeader(MessageHeaders.IN_REPLY_TO, "first-message-id");
+		message.setHeader(MessageHeaders.REFERENCES, "first-message-id");
 		Event existingEvent = new Event();
 		existingEvent.setAttendance(new ArrayList<String>(Arrays.asList("anAttendee", "anotherAttendee")));
 		when(eventDao.findForMessageId(eq("first-message-id"))).thenReturn(existingEvent);
