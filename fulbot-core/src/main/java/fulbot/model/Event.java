@@ -1,6 +1,7 @@
 package fulbot.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -24,6 +25,8 @@ public class Event {
 	private List<String> attendance = new ArrayList<>();
 
 	private Boolean replyPending = Boolean.TRUE;
+
+	private Date createdDate = new Date();
 
 	public ObjectId getId() {
 		return id;
@@ -55,6 +58,14 @@ public class Event {
 
 	public void setReplyPending(Boolean replyPending) {
 		this.replyPending = replyPending;
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
 	}
 
 }

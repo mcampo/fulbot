@@ -23,7 +23,7 @@ public class MongoEventDao extends BasicDAO<Event, ObjectId> implements EventDao
 
 	@Override
 	public List<Event> getAll() {
-		return find().asList();
+		return createQuery().order("-createdDate").asList();
 	}
 
 	@Override
