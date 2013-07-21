@@ -59,6 +59,7 @@ App.Views.EventView = Backbone.View.extend({
 		if (e.which == 13) {
 			this.onBtnAddClick();
 		}
+		this.$(".new-attendee").focus();
 	},
 
 	onBtnRemoveClick : function(e) {
