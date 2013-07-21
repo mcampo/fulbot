@@ -3,3 +3,22 @@
 #event-view h1 {
 	margin-top: 0;
 }
+#event-view .event ol li {
+	position: relative;
+	padding: 2px 5px;
+	border-radius: 5px;
+}
+#event-view .event ol li:hover {
+	background-color: #eee;
+}
+#event-view .event ol li .btn-remove {
+	position: absolute;
+	right: 5px;
+}
+#event-view .event .new-attendee {
+	margin-left: 28px;
+	margin-bottom: 0;
+}
+#event-view .event .btn-add {
+	margin-left: 10px;
+}

@@ -16,7 +16,7 @@
 
 		<div class="row">
 			<section id="event-list" class="span2"></section>
-			<section id="event-view" class="span10"></section>
+			<section id="event-view" class="span6"></section>
 		</div>
 	</div>
 	
@@ -33,9 +33,12 @@
 			<h1>{{emailData.subject}}</h1>
 			<ol>
 			{{#attendance}}
-				<li>{{.}}</li>
+				<li><span class="attendee">{{.}}</span><button class="btn btn-mini btn-remove">Remove</button></li>
 			{{/attendance}}
 			</ol>
+			<div>
+				<input type="text" class="new-attendee"><button class="btn btn-add">Add</button>
+			</div>
 		</div>
 	</script>
 	
