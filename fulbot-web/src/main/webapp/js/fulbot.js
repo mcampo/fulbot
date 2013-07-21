@@ -15,11 +15,22 @@ App.Views.MainView = Backbone.View.extend({
 			el : this.$("#event-list"),
 			collection : this.eventCollection
 		});
+		this.eventView = new App.Views.EventView({
+			el : this.$("#event-view")
+		});
 
 		var router = new App.Routers.MainRouter({
 			mainView : this
 		});
 		Backbone.history.start();
+	},
+
+	showEvent : function(eventId) {
+		var event = this.eventCollection.get(eventId);
+		if (event) {
+			this.eventView.model = event;
+			this.eventView.render();
+		}
 	}
 });
 

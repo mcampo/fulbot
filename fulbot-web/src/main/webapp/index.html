@@ -4,24 +4,35 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Fulbot</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+<link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-	<h1>Fulbot</h1>
-
+	<h1><a href="#">Fulbot</a></h1>
+	
 	<section id="event-list"></section>
 
-	<section id="event-edit"></section>
-
+	<section id="event-view"></section>
 
 	<script id="event-list-hbs" type="text/x-handlebars">
 		<ul>
 		{{#events}}
-			<li><a href="#events/{{id}}">{{emailData.subject}}</a></li>
+			<li><a href="#/events/{{id}}">{{emailData.subject}}</a></li>
 		{{/events}}
 		</ul>
 	</script>
 
+	<script id="event-view-hbs" type="text/x-handlebars">
+		<div class="event">
+			<h1>{{emailData.subject}}</h1>
+			<ol>
+			{{#attendance}}
+				<li>{{.}}</li>
+			{{/attendance}}
+			</ol>
+		</div>
+	</script>
+	
 	<script type="text/javascript" src="js/jquery-2.0.2.js"></script>
 	<script type="text/javascript" src="js/underscore-1.4.4.js"></script>
 	<script type="text/javascript" src="js/backbone-1.0.0.js"></script>
@@ -30,5 +41,6 @@
 	<script type="text/javascript" src="js/templates.js"></script>
 	<script type="text/javascript" src="js/routes.js"></script>
 	<script type="text/javascript" src="js/events.js"></script>
+
 </body>
 </html>

@@ -16,7 +16,8 @@ _.extend(App.TemplateRenderer.prototype, {
 		if ($templateElement.length === 0) {
 			throw new Error("Could not find template with id: " + templateId);
 		}
-		this.templates[templateName] = Handlebars.compile($templateElement.html());
+		this.templates[templateName] = Handlebars.compile($templateElement
+				.html());
 	}
 });
 

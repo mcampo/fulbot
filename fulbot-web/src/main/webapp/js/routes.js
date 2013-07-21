@@ -1,7 +1,8 @@
 App.Routers.MainRouter = Backbone.Router.extend({
 
 	routes : {
-		"" : "index"
+		"" : "index",
+		"events/:eventId" : "event"
 	},
 
 	initialize : function(options) {
@@ -12,6 +13,10 @@ App.Routers.MainRouter = Backbone.Router.extend({
 		console.log("index");
 
 		this.mainView.eventCollection.fetch();
+	},
+
+	event : function(eventId) {
+		this.mainView.showEvent(eventId);
 	}
 
 });

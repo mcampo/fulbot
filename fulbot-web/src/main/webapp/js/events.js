@@ -22,3 +22,15 @@ App.Views.EventCollectionView = Backbone.View.extend({
 		return this;
 	}
 });
+
+App.Views.EventView = Backbone.View.extend({
+	initialize : function() {
+		console.log("initialized event view");
+	},
+
+	render : function() {
+		console.log("showing event: " + this.model.id);
+		var html = App.render("event-view", this.model.toJSON());
+		this.$el.html(html);
+	}
+});
