@@ -8,6 +8,10 @@ App.Collections.EventCollection = Backbone.Collection.extend({
 });
 
 App.Views.EventCollectionView = Backbone.View.extend({
+	events : {
+		"click li a" : "onClick"
+	},
+
 	initialize : function() {
 		this.listenTo(this.collection, "sync", this.render);
 	},
@@ -20,6 +24,11 @@ App.Views.EventCollectionView = Backbone.View.extend({
 		});
 		this.$el.html(html);
 		return this;
+	},
+
+	onClick : function(e) {
+		this.$("li").removeClass("active");
+		$(e.target).parent("li").addClass("active");
 	}
 });
 
