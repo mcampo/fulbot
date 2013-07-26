@@ -5,6 +5,7 @@ import java.util.List;
 import org.bson.types.ObjectId;
 
 import com.github.jmkgreen.morphia.Key;
+import com.mongodb.WriteResult;
 
 import fulbot.model.Event;
 
@@ -35,4 +36,10 @@ public interface EventDao {
 	 * @param event
 	 */
 	public Key<Event> save(Event event);
+
+	/**
+	 * Deletes an {@link Event}
+	 * @param event
+	 */
+	public WriteResult deleteById(ObjectId id);
 }

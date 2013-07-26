@@ -14,6 +14,7 @@ App.Views.EventCollectionView = Backbone.View.extend({
 
 	initialize : function() {
 		this.listenTo(this.collection, "sync", this.render);
+		this.listenTo(this.collection, "destroy", this.onModelDestroy);
 	},
 
 	render : function() {
@@ -29,11 +30,17 @@ App.Views.EventCollectionView = Backbone.View.extend({
 	onClick : function(e) {
 		this.$("li").removeClass("active");
 		$(e.target).parent("li").addClass("active");
+	},
+
+	onModelDestroy : function(model) {
+		this.$("li[data-id='"+ model.id + "']").remove();
 	}
+
 });
 
 App.Views.EventView = Backbone.View.extend({
 	events : {
+		"click .btn-delete" : "onBtnDeleteClick",
 		"click .btn-add" : "onBtnAddClick",
 		"click .btn-remove" : "onBtnRemoveClick",
 		"keypress .new-attendee" : "onNewAttendeeKeypress"
@@ -41,11 +48,17 @@ App.Views.EventView = Backbone.View.extend({
 
 	initialize : function() {
 		this.listenTo(this.model, "change", this.render);
+		this.listenTo(this.model, "destroy", this.remove);
 	},
 
 	render : function() {
 		var html = App.render("event-view", this.model.toJSON());
 		this.$el.html(html);
+	},
+
+	onBtnDeleteClick : function() {
+		var that = this;
+		this.model.destroy();
 	},
 
 	onBtnAddClick : function() {

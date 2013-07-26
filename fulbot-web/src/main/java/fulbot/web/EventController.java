@@ -53,4 +53,10 @@ public class EventController {
 	public void update(@RequestBody final Event event) {
 		eventDao.save(event);
 	}
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	@ResponseBody
+	public void delete(@PathVariable("id") final ObjectId id) {
+		eventDao.deleteById(id);
+	}
 }
