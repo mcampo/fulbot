@@ -49,9 +49,24 @@ public class MessageProcessorTest {
 	@Test
 	public void shouldFindEventUsingReferencesHeader() throws Exception {
 		MimeMessage message = createDefaultTestMessage();
-		message.setHeader(MessageHeaders.REFERENCES, "first-message-id");
+		message.setHeader(MessageHeaders.REFERENCES, "first-message-id\n\tsecond-message-id");
 		Event existingEvent = new Event();
 		when(eventDao.findForMessageId(eq("first-message-id"))).thenReturn(existingEvent);
+
+		messageProcessor.process(message);
+
+		ArgumentCaptor<Event> argCaptor = ArgumentCaptor.forClass(Event.class);
+		verify(eventDao).save(argCaptor.capture());
+		Event savedEvent = argCaptor.getValue();
+		assertEquals(existingEvent, savedEvent);
+	}
+
+	@Test
+	public void shouldFindEventUsingReferencesHeaderWhenIsSeparatedByComas() throws Exception {
+		MimeMessage message = createDefaultTestMessage();
+		message.setHeader(MessageHeaders.REFERENCES, "first-message-id,second-message-id");
+		Event existingEvent = new Event();
+		when(eventDao.findForMessageId(eq("second-message-id"))).thenReturn(existingEvent);
 
 		messageProcessor.process(message);
 
@@ -67,8 +82,7 @@ public class MessageProcessorTest {
 		//server only knows A. 
 		//C comes in reply to B, but it also references A
 		MimeMessage message = createDefaultTestMessage();
-		message.addHeader(MessageHeaders.REFERENCES, "first-message-id");
-		message.addHeader(MessageHeaders.REFERENCES, "second-message-id");
+		message.addHeader(MessageHeaders.REFERENCES, "first-message-id\n\tsecond-message-id");
 		Event existingEvent = new Event();
 		existingEvent.getEmailData().getReferences().add("first-message-id");
 		when(eventDao.findForMessageId(eq("first-message-id"))).thenReturn(existingEvent);
