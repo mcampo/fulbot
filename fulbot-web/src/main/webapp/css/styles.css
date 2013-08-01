@@ -14,10 +14,6 @@
 #event-view .event ol li:hover {
 	background-color: #eee;
 }
-#event-view .event ol li .btn-remove {
-	position: absolute;
-	right: 5px;
-}
 #event-view .event .new-attendee {
 	margin-left: 5px;
 	margin-bottom: 0;
