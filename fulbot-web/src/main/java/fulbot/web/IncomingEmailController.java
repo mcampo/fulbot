@@ -29,7 +29,7 @@ import fulbot.web.to.MandrillEvent;
 @RequestMapping("/incoming")
 public class IncomingEmailController {
 
-	private static final Logger logger = LoggerFactory.getLogger(IncomingEmailController.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(IncomingEmailController.class);
 
 	private final ObjectMapper objectMapper;
 	private final MessageProcessor messageProcessor;
@@ -53,7 +53,7 @@ public class IncomingEmailController {
 	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	@ResponseStatus(HttpStatus.OK)
 	public void processInboundMessage(@RequestParam("mandrill_events") String incomingEmailJson) throws Exception {
-		logger.debug(incomingEmailJson);
+		LOGGER.debug(incomingEmailJson);
 		incomingEmailDao.save(incomingEmailJson);
 
 		MandrillEvent.List mandrillEvents = objectMapper.readValue(incomingEmailJson, MandrillEvent.List.class);

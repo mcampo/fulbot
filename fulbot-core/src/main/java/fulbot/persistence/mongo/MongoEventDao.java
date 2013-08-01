@@ -5,6 +5,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.bson.types.ObjectId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.github.jmkgreen.morphia.Datastore;
@@ -16,6 +18,8 @@ import fulbot.persistence.EventDao;
 @Repository
 public class MongoEventDao extends BasicDAO<Event, ObjectId> implements EventDao {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(MongoEventDao.class);
+	
 	@Inject
 	private MongoEventDao(Datastore ds) {
 		super(ds);
@@ -28,6 +32,7 @@ public class MongoEventDao extends BasicDAO<Event, ObjectId> implements EventDao
 
 	@Override
 	public Event findForMessageId(String messageId) {
+		LOGGER.debug("MongoEventDao#findForMessageId {}", messageId);
 		return findOne("emailData.references", messageId);
 	}
 
