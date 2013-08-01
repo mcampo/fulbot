@@ -4,6 +4,7 @@
 	margin-top: 0;
 }
 #event-view .event ol {
+	margin-top: 10px;
 	margin-bottom: 20px;
 }
 #event-view .event ol li {
@@ -20,4 +21,7 @@
 }
 #event-view .event .btn-add {
 	margin-left: 10px;
+}
+#event-view .event .actions {
+	margin-top: 40px;
 }

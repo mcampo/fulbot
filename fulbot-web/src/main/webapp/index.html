@@ -16,7 +16,7 @@
 
 		<div class="row">
 			<section id="event-list" class="span2"></section>
-			<section id="event-view" class="span4"></section>
+			<section id="event-view" class="span5"></section>
 		</div>
 	</div>
 	
@@ -30,14 +30,17 @@
 
 	<script id="event-view-hbs" type="text/x-handlebars">
 		<div class="event">
-			<h1>{{emailData.subject}} <button type="button" class="btn btn-mini btn-delete">Delete</button></h1>
+			<h1>{{emailData.subject}}</h1>
 			<ol>
 			{{#attendance}}
 				<li><span class="attendee">{{.}}</span><a class="btn-remove close">&times;</a></li>
 			{{/attendance}}
 			</ol>
 			<div>
-				<input type="text" class="new-attendee"><button class="btn btn-add">Add</button>
+				<input type="text" class="new-attendee span4"><button class="btn btn-add">Add</button>
+			</div>
+			<div class="actions">
+				<button type="button" class="btn btn-delete">Delete</button>
 			</div>
 		</div>
 	</script>
