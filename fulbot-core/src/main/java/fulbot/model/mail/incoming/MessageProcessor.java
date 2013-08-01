@@ -25,7 +25,6 @@ import fulbot.persistence.EventDao;
 @Component
 public class MessageProcessor {
 
-	private static final String REGEX = "\n\t|,";
 	private final EventDao eventDao;
 	private final ContentReader contentReader;
 	private final ContentProcessor contentProcessor;
@@ -68,7 +67,7 @@ public class MessageProcessor {
 	private Event findEvent(MimeMessage message) throws MessagingException {
 		String referencesHeader = message.getHeader(MessageHeaders.REFERENCES, "\n\t");
 		if (referencesHeader != null) {
-			String[] references = referencesHeader.split(REGEX);
+			String[] references = referencesHeader.split(MessageHeaders.REFERENCES_HEADER_SEPARATOR_REGEX);
 			for (String messageId : references) {
 				Event event = eventDao.findForMessageId(messageId);
 				if (event != null) {
