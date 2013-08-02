@@ -1,16 +1,15 @@
 package fulbot.model.mail.outgoing;
 
 import java.util.List;
-import java.util.Properties;
 
 import javax.inject.Inject;
-import javax.mail.MessagingException;
-import javax.mail.Session;
 import javax.mail.Message.RecipientType;
+import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 
 import fulbot.model.Event;
@@ -19,18 +18,18 @@ import fulbot.model.mail.MessageHeaders;
 @Component
 public class EventReplierImpl implements EventReplier {
 
-	private final MailSender mailSender;
+	private final JavaMailSender mailSender;
 	private final ContentCreator contentCreator;
 
 	@Inject
-	public EventReplierImpl(MailSender mailSender, ContentCreator contentCreator) {
+	public EventReplierImpl(JavaMailSender mailSender, ContentCreator contentCreator) {
 		this.mailSender = mailSender;
 		this.contentCreator = contentCreator;
 	}
 
 	@Override
 	public void reply(Event event) throws MessagingException {
-		MimeMessage reply = new MimeMessage(Session.getDefaultInstance(new Properties()));
+		MimeMessage reply = mailSender.createMimeMessage();
 
 		setSubject(reply, event);
 		setFrom(reply, event);

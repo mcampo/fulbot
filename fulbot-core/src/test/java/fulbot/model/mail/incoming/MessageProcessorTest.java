@@ -77,6 +77,21 @@ public class MessageProcessorTest {
 	}
 
 	@Test
+	public void shouldFindEventUsingReferencesHeaderWhenIsSeparatedBySpaceCharacters() throws Exception {
+		MimeMessage message = createDefaultTestMessage();
+		message.setHeader(MessageHeaders.REFERENCES, "first-message-id\n \tsecond-message-id");
+		Event existingEvent = new Event();
+		when(eventDao.findForMessageId(eq("second-message-id"))).thenReturn(existingEvent);
+
+		messageProcessor.process(message);
+
+		ArgumentCaptor<Event> argCaptor = ArgumentCaptor.forClass(Event.class);
+		verify(eventDao).save(argCaptor.capture());
+		Event savedEvent = argCaptor.getValue();
+		assertEquals(existingEvent, savedEvent);
+	}
+
+	@Test
 	public void shouldFindEventWhenMessageReferencesBothAnUnknownMessageAndAKnownMessage() throws Exception {
 		//A -> B -> C
 		//server only knows A. 

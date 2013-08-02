@@ -11,9 +11,7 @@ import fulbot.model.mail.incoming.ContentProcessor;
 import fulbot.model.mail.incoming.ContentReader;
 import fulbot.model.mail.incoming.TextPlainContentReader;
 import fulbot.model.mail.outgoing.ContentCreator;
-import fulbot.model.mail.outgoing.MailSender;
 import fulbot.model.mail.outgoing.SimpleContentCreator;
-import fulbot.model.mail.outgoing.SmtpMailSender;
 
 @Configuration
 public class ModelModule {
@@ -32,11 +30,6 @@ public class ModelModule {
 	@Bean
 	public ContentCreator contentCreator() {
 		return new SimpleContentCreator();
-	}
-	
-	@Bean
-	public MailSender mailSender() {
-		return new SmtpMailSender();
 	}
 	
 }
