@@ -9,6 +9,7 @@
 
 	<logger name="fulbot" level="debug" />
 	<logger name="com.github.jknack.mwa" level="debug" />
+	<logger name="org.subethamail.wiser" level="debug" />
 
 	<root level="info">
 		<appender-ref ref="STDOUT" />

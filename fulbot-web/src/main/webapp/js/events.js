@@ -1,5 +1,16 @@
 App.Models.Event = Backbone.Model.extend({
 
+	sendReply : function() {
+		var replyUrl = this.url() + "/reply";
+		$.ajax({
+			type : "POST",
+			url: replyUrl,
+			data: {}
+		})
+		.done(function () {alert("success")})
+		.fail(function () {alert("error")});
+	}
+
 });
 
 App.Collections.EventCollection = Backbone.Collection.extend({
@@ -33,7 +44,7 @@ App.Views.EventCollectionView = Backbone.View.extend({
 	},
 
 	onModelDestroy : function(model) {
-		this.$("li[data-id='"+ model.id + "']").remove();
+		this.$("li[data-id='" + model.id + "']").remove();
 	}
 
 });
@@ -43,6 +54,7 @@ App.Views.EventView = Backbone.View.extend({
 		"click .btn-delete" : "onBtnDeleteClick",
 		"click .btn-add" : "onBtnAddClick",
 		"click .btn-remove" : "onBtnRemoveClick",
+		"click .btn-reply" : "onBtnReplyClick",
 		"keypress .new-attendee" : "onNewAttendeeKeypress"
 	},
 
@@ -81,5 +93,10 @@ App.Views.EventView = Backbone.View.extend({
 
 		this.model.set("attendance", _.without(attendance, attendee));
 		this.model.save();
+	},
+
+	onBtnReplyClick : function(e) {
+		this.model.sendReply();
 	}
+
 });

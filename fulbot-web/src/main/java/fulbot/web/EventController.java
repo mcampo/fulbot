@@ -39,7 +39,7 @@ public class EventController {
 		return eventDao.getAll();
 	}
 	
-	@RequestMapping(value = "/{id}/reply", method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}/reply", method = RequestMethod.POST)
 	@ResponseBody
 	public void reply(@PathVariable("id") final ObjectId id) throws MessagingException {
 		//TODO: handle exception
