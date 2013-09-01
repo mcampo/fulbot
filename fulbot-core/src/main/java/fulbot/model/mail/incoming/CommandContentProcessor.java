@@ -6,13 +6,15 @@ import java.util.List;
 import org.apache.commons.lang3.Validate;
 
 /**
- * {@link ContentProcessor} that decides what to do based on the presence
- * of configured commands in the message content.
+ * {@link ContentProcessor} that decides what to do based on the presence of
+ * configured commands in the message content.
  * 
  * This processor will only check the first line of the message content for an
  * exact match with any command.
  */
 public class CommandContentProcessor implements ContentProcessor {
+
+	private static final String PUNCTUATION_REGEX = "[^\\w\\s]";
 
 	private Collection<String> addCommands;
 	private Collection<String> removeCommands;
@@ -26,7 +28,8 @@ public class CommandContentProcessor implements ContentProcessor {
 
 	@Override
 	public void process(String content, String sender, List<String> attendance) {
-		String command = content.split("\n")[0].trim();
+		String command = content.split("\n")[0];
+		command = removePunctiation(command);
 
 		if (matchesAny(command, addCommands)) {
 			if (!attendance.contains(sender)) {
@@ -37,6 +40,10 @@ public class CommandContentProcessor implements ContentProcessor {
 		if (matchesAny(command, removeCommands)) {
 			attendance.remove(sender);
 		}
+	}
+
+	private String removePunctiation(String command) {
+		return command.replaceAll(PUNCTUATION_REGEX, "").trim();
 	}
 
 	/**

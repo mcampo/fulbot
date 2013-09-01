@@ -87,6 +87,16 @@ public class CommandContentProcessorTest {
 	}
 
 	@Test
+	public void testShouldMatchCommandsIgnoringPunctiation() {
+		String sender = "sender";
+		List<String> attendance = new ArrayList<>();
+		
+		processor.process("count me in. !!", sender, attendance);
+		
+		assertTrue(attendance.contains(sender));
+	}
+
+	@Test
 	public void testShouldOnlyUseFirstLineToMatchACommand() {
 		String sender = "sender";
 		List<String> attendance = new ArrayList<>();
