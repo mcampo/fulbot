@@ -1,5 +1,6 @@
 package fulbot.model.mail.outgoing;
 
+import java.util.Iterator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -35,6 +36,7 @@ public class EventReplierImpl implements EventReplier {
 		setFrom(reply, event);
 		setRecipients(reply, event);
 		setInReplyToHeader(reply, event);
+		setReferencesHeader(reply, event);
 		setContent(reply, event);
 
 		mailSender.send(reply);
@@ -61,6 +63,20 @@ public class EventReplierImpl implements EventReplier {
 		if (!references.isEmpty()) {
 			String lastReference = references.get(references.size() - 1);
 			reply.setHeader(MessageHeaders.IN_REPLY_TO, lastReference);
+		}
+	}
+
+	private void setReferencesHeader(MimeMessage reply, Event event) throws MessagingException {
+		List<String> references = event.getEmailData().getReferences();
+		if (!references.isEmpty()) {
+			StringBuilder referencesBuilder = new StringBuilder();
+			Iterator<String> referencesIterator = references.iterator();
+			referencesBuilder.append(referencesIterator.next());
+			while (referencesIterator.hasNext()) {
+				referencesBuilder.append(" ");
+				referencesBuilder.append(referencesIterator.next());
+			}
+			reply.setHeader(MessageHeaders.REFERENCES, referencesBuilder.toString());
 		}
 	}
 

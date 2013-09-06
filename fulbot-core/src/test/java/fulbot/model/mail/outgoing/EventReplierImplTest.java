@@ -117,6 +117,7 @@ public class EventReplierImplTest {
 		verify(mailSender).send(captor.capture());
 		MimeMessage reply = captor.getValue();
 		assertEquals("second-message", reply.getHeader(MessageHeaders.IN_REPLY_TO, null));
+		assertEquals("first-message second-message", reply.getHeader(MessageHeaders.REFERENCES, null));
 	}
 	
 	@Test
