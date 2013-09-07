@@ -45,7 +45,6 @@ public class EventController {
 		//TODO: handle exception
 		Event event = eventDao.get(id);
 		eventReplier.reply(event);
-		eventDao.save(event);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)

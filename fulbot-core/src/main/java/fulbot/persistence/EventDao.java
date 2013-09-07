@@ -42,4 +42,10 @@ public interface EventDao {
 	 * @param event
 	 */
 	public WriteResult deleteById(ObjectId id);
+
+	/**
+	 * Finds all events that need a reply to be sent
+	 * @return
+	 */
+	public List<Event> findEventsWithReplyPending();
 }

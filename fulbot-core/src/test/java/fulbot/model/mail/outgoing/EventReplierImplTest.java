@@ -26,12 +26,14 @@ import org.springframework.mail.javamail.JavaMailSender;
 
 import fulbot.model.Event;
 import fulbot.model.mail.MessageHeaders;
+import fulbot.persistence.EventDao;
 
 public class EventReplierImplTest {
 
 	private EventReplierImpl eventReplier;
 	private JavaMailSender mailSender;
 	private ContentCreator contentCreator;
+	private EventDao eventDao;
 	
 	private Event event;
 
@@ -39,11 +41,12 @@ public class EventReplierImplTest {
 	public void setUp() throws Exception {
 		mailSender = mock(JavaMailSender.class);
 		contentCreator = mock(ContentCreator.class);
-		eventReplier = new EventReplierImpl(mailSender, contentCreator);
+		eventDao = mock(EventDao.class);
+		eventReplier = new EventReplierImpl(mailSender, contentCreator, eventDao);
 		
 		event = new Event();
 		event.getEmailData().setAddress("some-address@fulbot.com");
-		event.setReplyPending(false);
+		event.setReplyPending(true);
 		
 		when(mailSender.createMimeMessage()).thenReturn(new MimeMessage(Session.getInstance(new Properties())));
 		when(contentCreator.createContent(any(Event.class))).thenReturn("dummy content");
@@ -51,8 +54,11 @@ public class EventReplierImplTest {
 
 	@Test
 	public void replyShouldSetReplyPendingToFalse() throws Throwable {
+		event.setReplyPending(true);
+		
 		eventReplier.reply(event);
 
+		verify(eventDao).save(eq(event));
 		assertFalse(event.getReplyPending());
 	}
 

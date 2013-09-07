@@ -10,22 +10,29 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 
 import fulbot.model.Event;
 import fulbot.model.mail.MessageHeaders;
+import fulbot.persistence.EventDao;
 
 @Component
 public class EventReplierImpl implements EventReplier {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(EventReplierImpl.class);
+
 	private final JavaMailSender mailSender;
 	private final ContentCreator contentCreator;
+	private final EventDao eventDao;
 
 	@Inject
-	public EventReplierImpl(JavaMailSender mailSender, ContentCreator contentCreator) {
+	public EventReplierImpl(JavaMailSender mailSender, ContentCreator contentCreator, EventDao eventDao) {
 		this.mailSender = mailSender;
 		this.contentCreator = contentCreator;
+		this.eventDao = eventDao;
 	}
 
 	@Override
@@ -39,8 +46,10 @@ public class EventReplierImpl implements EventReplier {
 		setReferencesHeader(reply, event);
 		setContent(reply, event);
 
+		LOGGER.debug("Sending reply for event " + event.getId());
 		mailSender.send(reply);
 		event.setReplyPending(false);
+		eventDao.save(event);
 	}
 
 	private void setContent(MimeMessage reply, Event event) throws MessagingException {

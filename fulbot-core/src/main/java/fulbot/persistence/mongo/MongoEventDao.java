@@ -36,4 +36,9 @@ public class MongoEventDao extends BasicDAO<Event, ObjectId> implements EventDao
 		return findOne("emailData.references", messageId);
 	}
 
+	@Override
+	public List<Event> findEventsWithReplyPending() {
+		return createQuery().field("replyPending").equal(true).asList();
+	}
+
 }
