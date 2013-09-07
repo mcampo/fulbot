@@ -46,7 +46,6 @@ public class EventReplierImplTest {
 		
 		event = new Event();
 		event.getEmailData().setAddress("some-address@fulbot.com");
-		event.setReplyPending(true);
 		
 		when(mailSender.createMimeMessage()).thenReturn(new MimeMessage(Session.getInstance(new Properties())));
 		when(contentCreator.createContent(any(Event.class))).thenReturn("dummy content");

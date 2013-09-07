@@ -54,7 +54,13 @@ public class MessageProcessor {
 			
 			String content = readContent(message);
 			String sender = message.getFrom()[0].toString();
+			
+			int previousAttendanceCount = event.getAttendance().size();
 			contentProcessor.process(content, sender, event.getAttendance());
+			
+			if (event.getAttendance().size() != previousAttendanceCount) {
+				event.setReplyPending(true);
+			}
 			
 			eventDao.save(event);
 

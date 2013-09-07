@@ -234,6 +234,49 @@ public class MessageProcessorTest {
 	}
 
 	@Test
+	public void shouldSetReplyPendingToTrueWhenAttendanceChanges() throws Exception {
+		MimeMessage message = createDefaultTestMessage();
+		message.setHeader(MessageHeaders.REFERENCES, "first-message-id");
+		Event existingEvent = new Event();
+		existingEvent.setReplyPending(false);
+		existingEvent.setAttendance(new ArrayList<String>(Arrays.asList("anAttendee", "anotherAttendee")));
+		when(eventDao.findForMessageId(eq("first-message-id"))).thenReturn(existingEvent);
+		contentProcessor = new ContentProcessor() {
+			@Override
+			public void process(String content, String sender, List<String> attendance) {
+				//add an attendee to attendance
+				attendance.add("yetAnotherAttendee");
+			}
+		};
+		messageProcessor = new MessageProcessor(eventDao, contentReader, contentProcessor);
+
+		messageProcessor.process(message);
+
+		assertEquals(true, existingEvent.getReplyPending());
+	}
+
+	@Test
+	public void shouldNotSetReplyPendingToTrueWhenAttendanceDoesNotChange() throws Exception {
+		MimeMessage message = createDefaultTestMessage();
+		message.setHeader(MessageHeaders.REFERENCES, "first-message-id");
+		Event existingEvent = new Event();
+		existingEvent.setReplyPending(false);
+		existingEvent.setAttendance(new ArrayList<String>(Arrays.asList("anAttendee", "anotherAttendee")));
+		when(eventDao.findForMessageId(eq("first-message-id"))).thenReturn(existingEvent);
+		contentProcessor = new ContentProcessor() {
+			@Override
+			public void process(String content, String sender, List<String> attendance) {
+				//don't change attendance
+			}
+		};
+		messageProcessor = new MessageProcessor(eventDao, contentReader, contentProcessor);
+
+		messageProcessor.process(message);
+
+		assertEquals(false, existingEvent.getReplyPending());
+	}
+
+	@Test
 	public void shouldCleanSubjectWhenPrefixesArePresent() throws Exception {
 		MimeMessage message = createDefaultTestMessage();
 		String originalSubject = message.getSubject();
