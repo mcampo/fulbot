@@ -54,7 +54,11 @@ public class IncomingEmailController {
 	@ResponseStatus(HttpStatus.OK)
 	public void processInboundMessage(@RequestParam("mandrill_events") String incomingEmailJson) throws Exception {
 		LOGGER.debug(incomingEmailJson);
-		incomingEmailDao.save(incomingEmailJson);
+		try {
+			incomingEmailDao.save(incomingEmailJson);
+		} catch (Exception e) {
+			LOGGER.error("Error saving incoming email document", e);
+		}
 
 		MandrillEvent.List mandrillEvents = objectMapper.readValue(incomingEmailJson, MandrillEvent.List.class);
 
