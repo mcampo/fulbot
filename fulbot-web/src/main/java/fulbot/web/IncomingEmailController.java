@@ -63,11 +63,16 @@ public class IncomingEmailController {
 		MandrillEvent.List mandrillEvents = objectMapper.readValue(incomingEmailJson, MandrillEvent.List.class);
 
 		for (MandrillEvent mandrillEvent : mandrillEvents) {
-			String rawMessage = mandrillEvent.getMessage().getRawMessage();
-			Session session = Session.getDefaultInstance(new Properties());
-			MimeMessage message = new MimeMessage(session, new ByteArrayInputStream(rawMessage.getBytes("utf-8")));
-			message.setHeader(MessageHeaders.DELIVERED_TO, mandrillEvent.getMessage().getEmail());
-			messageProcessor.process(message);
+			try {
+				String rawMessage = mandrillEvent.getMessage().getRawMessage();
+				Session session = Session.getDefaultInstance(new Properties());
+				MimeMessage message = new MimeMessage(session, new ByteArrayInputStream(rawMessage.getBytes("utf-8")));
+				message.setHeader(MessageHeaders.DELIVERED_TO, mandrillEvent.getMessage().getEmail());
+				messageProcessor.process(message);
+			} catch (Exception e) {
+				LOGGER.error("Error processing message", e);
+			}
+			
 		}
 	}
 
