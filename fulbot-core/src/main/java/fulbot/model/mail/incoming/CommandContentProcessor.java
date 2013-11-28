@@ -28,7 +28,13 @@ public class CommandContentProcessor implements ContentProcessor {
 
 	@Override
 	public void process(String content, String sender, List<String> attendance) {
-		String command = content.split("\n")[0];
+		String[] lines = content.split("\n");
+		if (lines == null || lines.length == 0) {
+			//nothing to do
+			return;
+		}
+		
+		String command = lines[0];
 		command = removePunctiation(command);
 
 		if (matchesAny(command, addCommands)) {

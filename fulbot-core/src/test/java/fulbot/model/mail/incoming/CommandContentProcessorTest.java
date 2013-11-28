@@ -127,11 +127,11 @@ public class CommandContentProcessorTest {
 	}
 	
 	@Test
-	public void testShouldDoNothingWhenConentIsEmpty() {
+	public void testShouldDoNothingWhenConentIsJustANewLine() {
 		String sender = "sender";
 		List<String> attendance = new ArrayList<>();
 		
-		processor.process("", sender, attendance);
+		processor.process("\n", sender, attendance);
 		
 		assertTrue(attendance.isEmpty());
 	}
