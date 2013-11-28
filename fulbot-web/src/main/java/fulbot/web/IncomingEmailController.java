@@ -53,7 +53,7 @@ public class IncomingEmailController {
 	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	@ResponseStatus(HttpStatus.OK)
 	public void processInboundMessage(@RequestParam("mandrill_events") String incomingEmailJson) throws Exception {
-		LOGGER.debug(incomingEmailJson);
+//		LOGGER.debug(incomingEmailJson);
 		try {
 			incomingEmailDao.save(incomingEmailJson);
 		} catch (Exception e) {

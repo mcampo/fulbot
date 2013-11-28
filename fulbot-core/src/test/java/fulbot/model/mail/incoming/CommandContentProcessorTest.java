@@ -125,4 +125,14 @@ public class CommandContentProcessorTest {
 		
 		assertFalse(attendance.contains(sender));
 	}
+	
+	@Test
+	public void testShouldDoNothingWhenConentIsEmpty() {
+		String sender = "sender";
+		List<String> attendance = new ArrayList<>();
+		
+		processor.process("", sender, attendance);
+		
+		assertTrue(attendance.isEmpty());
+	}
 }
