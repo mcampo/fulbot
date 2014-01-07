@@ -41,4 +41,9 @@ public class MongoEventDao extends BasicDAO<Event, ObjectId> implements EventDao
 		return createQuery().field("replyPending").equal(true).asList();
 	}
 
+	@Override
+	public Event findForSubject(String subject) {
+		return findOne("emailData.subject", subject);
+	}
+
 }

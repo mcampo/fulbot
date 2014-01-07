@@ -32,6 +32,13 @@ public interface EventDao {
 	public Event findForMessageId(String messageId);
 
 	/**
+	 * Finds the matching Event for an email subject.
+	 * @param subject
+	 * @return
+	 */
+	public Event findForSubject(String subject);
+
+	/**
 	 * Saves an {@link Event}
 	 * @param event
 	 */

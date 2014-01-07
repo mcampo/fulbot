@@ -73,6 +73,7 @@ public class MessageProcessor {
 	private Event findEvent(MimeMessage message) throws MessagingException {
 		String referencesHeader = message.getHeader(MessageHeaders.REFERENCES, "\n\t");
 		if (referencesHeader != null) {
+			//find using references header
 			String[] references = referencesHeader.split(MessageHeaders.REFERENCES_HEADER_SEPARATOR_REGEX);
 			for (String messageId : references) {
 				Event event = eventDao.findForMessageId(messageId);
@@ -80,8 +81,11 @@ public class MessageProcessor {
 					return event;
 				}
 			}
+			return null;
+		} else {
+			//find using subject
+			return eventDao.findForSubject(getSubject(message));
 		}
-		return null;
 	}
 
 	private String getSubject(MimeMessage message) throws MessagingException {

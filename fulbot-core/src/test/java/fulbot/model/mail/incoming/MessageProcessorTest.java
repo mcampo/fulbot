@@ -113,6 +113,23 @@ public class MessageProcessorTest {
 	}
 
 	@Test
+	public void shouldFindEventUsingSubjectWhenReferencesHeaderIsNotPresent() throws Exception {
+		MimeMessage message = createDefaultTestMessage();
+		message.removeHeader(MessageHeaders.REFERENCES);
+		Event existingEvent = new Event();
+		String originalSubject = message.getSubject();
+		message.setSubject("Re: " + originalSubject);
+		when(eventDao.findForSubject(eq(originalSubject))).thenReturn(existingEvent);
+
+		messageProcessor.process(message);
+
+		ArgumentCaptor<Event> argCaptor = ArgumentCaptor.forClass(Event.class);
+		verify(eventDao).save(argCaptor.capture());
+		Event savedEvent = argCaptor.getValue();
+		assertEquals(existingEvent, savedEvent);
+	}
+
+	@Test
 	public void shouldCreateAnEventWhenNoEventIsFoundForMessage() throws Exception {
 		MimeMessage message = createDefaultTestMessage();
 		message.setHeader(MessageHeaders.REFERENCES, "non-existent-message-id");
