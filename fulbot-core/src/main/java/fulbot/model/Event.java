@@ -24,7 +24,7 @@ public class Event {
 
 	private List<String> attendance = new ArrayList<>();
 
-	private Boolean replyPending = Boolean.TRUE;
+	private Boolean replyPending = Boolean.FALSE;
 
 	private Date createdDate = new Date();
 

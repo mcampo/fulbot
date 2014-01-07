@@ -19,6 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
+import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
@@ -119,25 +120,20 @@ public class MessageProcessorTest {
 
 		messageProcessor.process(message);
 
-		ArgumentCaptor<Event> argCaptor = ArgumentCaptor.forClass(Event.class);
-		verify(eventDao).save(argCaptor.capture());
-		Event savedEvent = argCaptor.getValue();
-		assertEquals(message.getSubject(), savedEvent.getEmailData().getSubject());
-		assertEquals(message.getHeader(MessageHeaders.DELIVERED_TO, null), savedEvent.getEmailData().getAddress());
-		assertEquals(1, savedEvent.getEmailData().getReplyTo().size());
-		assertTrue(savedEvent.getEmailData().getReplyTo().contains(message.getFrom()[0].toString()));
-		assertEquals(1, savedEvent.getEmailData().getReferences().size());
-		assertEquals(message.getMessageID(), savedEvent.getEmailData().getReferences().get(0));
-		assertTrue(savedEvent.getAttendance().isEmpty());
+		assertEventCreated(message);
 	}
 
 	@Test
-	public void shouldCreateAnEventWhenMessageHasNoInReplyToHeader() throws Exception {
+	public void shouldCreateAnEventWhenMessageHasNoReferencesHeader() throws Exception {
 		MimeMessage message = createDefaultTestMessage();
 
 		messageProcessor.process(message);
 
 		verify(eventDao, never()).findForMessageId(anyString());
+		assertEventCreated(message);
+	}
+
+	private void assertEventCreated(MimeMessage message) throws MessagingException {
 		ArgumentCaptor<Event> argCaptor = ArgumentCaptor.forClass(Event.class);
 		verify(eventDao).save(argCaptor.capture());
 		Event savedEvent = argCaptor.getValue();
@@ -148,6 +144,7 @@ public class MessageProcessorTest {
 		assertEquals(1, savedEvent.getEmailData().getReferences().size());
 		assertEquals(message.getMessageID(), savedEvent.getEmailData().getReferences().get(0));
 		assertTrue(savedEvent.getAttendance().isEmpty());
+		assertFalse(savedEvent.getReplyPending());
 	}
 
 	@Test
